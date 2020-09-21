@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+    android:id="@+id/NAV_LoginInfo"
+    android:title="Account info"
+    android:icon="@drawable/violin"/>
+
+    <item
+        android:id="@+id/NAV_Instruments"
+        android:title="Instruments"
+        android:icon="@drawable/keyboard"/>
+
+    <item
+        android:id="@+id/NAV_PersonalData"
+        android:title="Personal info"
+        android:icon="@drawable/microphone"/>
+</menu>

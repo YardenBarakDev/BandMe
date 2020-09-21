@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.Fragment_Instruments"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_electric_guitar"
+            android:tag="Register_IBTN_electric_guitar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/electric_guitar"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_electric_guitar" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_bass_guitar"
+            android:tag="Register_IBTN_bass_guitar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bass_guitar"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_bass_guitar" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_drums"
+            android:tag="Register_IBTN_drums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/drums"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_drums" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_keyboard"
+            android:tag="Register_IBTN_keyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/keyboard"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_keyboard" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_microphone"
+            android:tag="Register_IBTN_microphone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/microphone"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_microphone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_flute"
+            android:tag="Register_IBTN_flute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flute"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_flute" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_dj"
+            android:tag="Register_IBTN_dj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dj"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_dj" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_mandolin"
+            android:tag="Register_IBTN_mandolin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mandolin"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_mandolin" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_violin"
+            android:tag="Register_IBTN_violin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/violin"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_violin" />
+
+        <ImageButton
+            android:id="@+id/Register_IBTN_percussion"
+            android:tag="Register_IBTN_percussion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/percussion"
+            android:backgroundTint="@color/backGround"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/Register_IBTN_percussion" />
+
+    </LinearLayout>
+
+</LinearLayout>

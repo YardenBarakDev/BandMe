@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.Activity_SignIn"
+    android:background="@color/backGround">
+
+    <ImageView
+        android:id="@+id/SignIn_IMAGE_Logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/app_icon" />
+
+    <EditText
+        android:id="@+id/SignIn_ET_UserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:hint="@string/SignIn_EditText_user_name"
+        android:autofillHints="User name"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:inputType="textVisiblePassword" />
+
+    <EditText
+        android:id="@+id/SignIn_ET_Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="12"
+        android:hint="@string/SignIn_EditText_Password"
+        android:autofillHints="User name"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/SignIn_ET_UserName"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword" />
+
+<TextView
+    android:id="@+id/SignIn_LBL_forgot_password"
+    android:tag="SignIn_LBL_forgot_password"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/SignIn_LBL_forgot_password"
+    android:layout_below="@+id/SignIn_ET_Password"
+    android:layout_alignEnd="@+id/SignIn_ET_Password"
+    android:textColor="@color/Black"
+    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_margin="25dp"
+        android:layout_alignParentBottom="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/SignIn_BTN_Login"
+            android:tag="SignIn_BTN_Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/SignIn_BTN_Login"
+            android:textAllCaps="false"
+            style="@style/TextAppearance.AppCompat.Large.Inverse"
+            app:cornerRadius="10dp"
+            />
+
+        <TextView
+            android:id="@+id/SignIn_LBL_firstTime_register"
+            android:tag="SignIn_LBL_firstTime_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/SignIn_LBL_first_time_register_now"
+            android:textColor="@color/Black"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

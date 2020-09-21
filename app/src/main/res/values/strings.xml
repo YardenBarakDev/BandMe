@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Band me</string>
+    <string name="app_logo">App logo</string>
+    <string name="SignIn_EditText_user_name">User name</string>
+    <string name="SignIn_EditText_Password">Password</string>
+    <string name="SignIn_BTN_Login">Login</string>
+    <string name="SignIn_LBL_forgot_password">Forgot password</string>
+    <string name="SignIn_LBL_first_time_register_now">First time? Register Now</string>
+    <string name="Register_ET_user_name">User name</string>
+    <string name="Register_ET_email">Email</string>
+    <string name="Register_ET_password">Password</string>
+    <string name="Register_ET_validatePassword">Validate password </string>
+    <string name="Register_LBL_instruments">Instruments</string>
+    <string name="Register_ET_age">Age</string>
+    <string name="Register_BTN_createAnAccount">Create an account</string>
+    <string name="Register_IBTN_electric_guitar">electric_guitar</string>
+    <string name="Register_IBTN_bass_guitar">bass guitar</string>
+    <string name="Register_IBTN_drums">drums</string>
+    <string name="Register_IBTN_keyboard">keyboard</string>
+    <string name="Register_IBTN_microphone">microphone</string>
+    <string name="Register_IBTN_flute">flute</string>
+    <string name="Register_IBTN_dj">dj</string>
+    <string name="Register_IBTN_mandolin">mandolin</string>
+    <string name="Register_IBTN_violin">violin</string>
+    <string name="Register_IBTN_percussion">percussion</string>
+    <string name="Register_ET_info">Tell us about yourself</string>
+
+
+    <string-array name="Register_Spinner_IsraelDistricts">
+        <item>District</item>
+        <item>Jerusalem District</item>
+        <item>Northern District</item>
+        <item>Haifa District</item>
+        <item>Central District</item>
+        <item>Tel Aviv District</item>
+        <item>Southern District</item>
+        <item>Judea and Samaria Area</item>
+        <item>Eilat</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Register_LBL_back">Back</string>
+    <string name="Register_LBL_next">Next</string>
+
+</resources>
