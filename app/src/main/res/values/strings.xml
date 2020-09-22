@@ -1,15 +1,14 @@
 <resources>
     <string name="app_name">Band me</string>
     <string name="app_logo">App logo</string>
-    <string name="SignIn_EditText_user_name">User name</string>
+    <string name="SignIn_EditText_email">Email</string>
     <string name="SignIn_EditText_Password">Password</string>
     <string name="SignIn_BTN_Login">Login</string>
     <string name="SignIn_LBL_forgot_password">Forgot password</string>
     <string name="SignIn_LBL_first_time_register_now">First time? Register Now</string>
-    <string name="Register_ET_user_name">User name</string>
     <string name="Register_ET_email">Email</string>
     <string name="Register_ET_password">Password</string>
-    <string name="Register_ET_validatePassword">Validate password </string>
+    <string name="Register_ET_validate_password">Validate password </string>
     <string name="Register_LBL_instruments">Instruments</string>
     <string name="Register_ET_age">Age</string>
     <string name="Register_BTN_createAnAccount">Create an account</string>
@@ -27,7 +26,6 @@
 
 
     <string-array name="Register_Spinner_IsraelDistricts">
-        <item>District</item>
         <item>Jerusalem District</item>
         <item>Northern District</item>
         <item>Haifa District</item>
@@ -37,9 +35,17 @@
         <item>Judea and Samaria Area</item>
         <item>Eilat</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Register_LBL_back">Back</string>
     <string name="Register_LBL_next">Next</string>
+    <string name="app_background">App background</string>
+    <string name="right_arrow">Right arrow</string>
+    <string name="left_arrow">Left arrow</string>
+    <string name="Instruments_LBL_i_play_on">I play</string>
+    <string name="PersonalData_TF_firstName">First name</string>
+    <string name="PersonalData_TF_lastName">Last name</string>
+    <string name="LoginInfo_TF_info">Write a little bit about yourself</string>
+    <string name="PersonalData_BTN_Login">Create an account</string>
 
 </resources>

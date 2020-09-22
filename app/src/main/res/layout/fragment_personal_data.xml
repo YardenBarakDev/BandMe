@@ -1,13 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.Fragment_PersonalData">
 
-    <TextView
+    <ImageView
+        android:id="@+id/PersonalData_IMAGE_backGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="fragment Personal data" />
+        android:scaleType="fitXY"
+        android:contentDescription="@string/app_background" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        >
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/PersonalData_Spinner_district"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ms_floatingLabelText="District"
+            app:ms_hint="District"
+            android:entries="@array/Register_Spinner_IsraelDistricts"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PersonalData_TF_firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            style="@style/TextDesign"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/PersonalData_TF_firstName"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:maxLength="15"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PersonalData_TF_lastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:hint="@string/PersonalData_TF_lastName"
+                android:maxLength="15"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PersonalData_TF_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="3"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/Register_ET_age"
+                android:maxLength="3"
+                android:maxLines="1"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PersonalData_TF_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="500"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/LoginInfo_TF_info"
+                android:maxLength="500"
+                android:maxLines="2"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/PersonalData_BTN_Login"
+        android:tag="PersonalData_BTN_Login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/PersonalData_BTN_Login"
+        android:textAllCaps="false"
+        style="@style/TextAppearance.AppCompat.Large.Inverse"
+        app:cornerRadius="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/PersonalData_IMAGE_leftArrow"
+        android:layout_margin="20dp"
+        />
+
+
+    <ImageView
+        android:id="@+id/PersonalData_IMAGE_leftArrow"
+        android:tag="PersonalData_IMAGE_leftArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/left_arrow"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/left_arrow" />
+
+
+</RelativeLayout>

@@ -16,6 +16,8 @@ public class MySP {
         String MANDOLIN = "Mandolin";
         String VIOLIN = "Violin";
         String PERCUSSION = "Percussion";
+        String PIANO = "Piano";
+        String SAXOPHONE = "Saxophone";
     }
 
     private static MySP instance;

@@ -2,16 +2,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/design_default_color_secondary_variant</item>
+        <item name="colorPrimary">@color/design_default_color_primary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/backGround</item>
     </style>
 
     <style name="RegisterIcons" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/backGround</item>
-        <item name="colorPrimaryDark">@color/backGround</item>
-        <item name="colorAccent">@color/backGround</item>
+        <item name="colorPrimary">@color/design_default_color_secondary_variant</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="navigationButton" parent="Theme.MaterialComponents.Light.DarkActionBar">
@@ -21,9 +21,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="TextDesign" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="TextDesign" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/material_on_background_emphasis_medium</item>
+        <item name="colorPrimary">@color/material_on_background_emphasis_high_type</item>
         <item name="colorPrimaryDark">@color/Black</item>
         <item name="colorAccent">@color/Black</item>
     </style>

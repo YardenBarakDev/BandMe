@@ -26,8 +26,8 @@
             android:maxLength="20"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:autofillHints="@string/Register_ET_user_name"
-            android:hint="@string/Register_ET_user_name"
+            android:autofillHints="@string/Register_ET_email"
+            android:hint="@string/Register_ET_email"
             android:inputType="textVisiblePassword"
             android:layout_marginEnd="3dp"/>
 
@@ -71,7 +71,7 @@
             android:maxLength="20"
             android:layout_height="match_parent"
             android:autofillHints="Email"
-            android:hint="@string/Register_ET_validatePassword"
+            android:hint="@string/Register_ET_validate_password"
             android:inputType="textPassword"
             android:layout_marginStart="3dp"
             tools:ignore="TextFields" />

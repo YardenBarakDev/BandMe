@@ -24,96 +24,30 @@
         android:layout_alignParentBottom="true"
         android:background="#F7F7F7"
         android:orientation="horizontal"
+        android:gravity="center"
         >
 
-        <LinearLayout
-            android:id="@+id/register_LAY_back"
-            android:tag="register_LAY_back"
+        <ImageView
+            android:id="@+id/register_IMG_firstStep"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/left_arrow"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Register_LBL_back"
-                android:textStyle="bold"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/register_IMG_firstStep"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/progress_on"
-                android:layout_margin="5dp"
-                android:contentDescription="TODO" />
-
-            <ImageView
-                android:id="@+id/register_IMG_secondStep"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/progress_off"
-                android:layout_margin="5dp"
-                android:contentDescription="TODO" />
-
-            <ImageView
-                android:id="@+id/register_IMG_thirdStep"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/progress_off"
-                android:layout_margin="5dp"
-                android:contentDescription="TODO" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/register_LAY_next"
-            android:tag="register_LAY_next"
+            android:layout_height="wrap_content"
+            android:src="@drawable/progress_off"
+            android:layout_margin="10dp"
+            android:contentDescription="TODO" />
+        <ImageView
+            android:id="@+id/register_IMG_secondStep"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Register_LBL_next"
-                android:textStyle="bold"
-                />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/right_error"
-                android:contentDescription="TODO" />
-        </LinearLayout>
-        
-        
+            android:layout_height="wrap_content"
+            android:src="@drawable/progress_off"
+            android:layout_margin="10dp"
+            android:contentDescription="TODO" />
+        <ImageView
+            android:id="@+id/register_IMG_thirdStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/progress_off"
+            android:layout_margin="10dp"
+            android:contentDescription="TODO" />
     </LinearLayout>
 
 </RelativeLayout>
