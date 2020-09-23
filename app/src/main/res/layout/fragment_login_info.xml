@@ -22,7 +22,13 @@
         android:layout_centerInParent="true"
         android:layout_margin="10dp"
         >
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/LoginInfo_an_email_will_be_send_for_verification"
+            android:fontFamily="@font/cherry_cream_soda"
+            android:layout_marginStart="5dp"
+            />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/LoginInfo_TF_email"
             android:layout_width="match_parent"
@@ -101,6 +107,7 @@
         android:focusable="true"
         android:layout_margin="10dp"
         android:contentDescription="TODO" />
+
 
 
 </RelativeLayout>

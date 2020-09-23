@@ -6,15 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationLoginInfo;
 import com.bawp.bandme.R;
+import com.bawp.bandme.util.FireBaseMethods;
 import com.bawp.bandme.util.ValidateUserAccountInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
 
 
 public class Fragment_LoginInfo extends Fragment {
@@ -81,22 +82,58 @@ public class Fragment_LoginInfo extends Fragment {
                 LoginInfo_TF_password.getEditText().getText() != null &&
                 LoginInfo_TF_validate_password.getEditText().getText() != null) {
 
-            ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
-            //check if the password is valid
-            boolean validPassword = validateUserAccountInfo.ValidatePasswordRequirements(LoginInfo_TF_password.getEditText().getText().toString());
-            if (!validPassword){
-                Log.d("tttt", "validateInfo: asfasf");
-                LoginInfo_TF_password.setError("Password must have at least 8 characters with at least one Capital letter, at least one lower case letter and at least one number ");
-            }
-            //check if both passwords are matched
-            boolean matchedPasswords = validateUserAccountInfo.ValidatePasswordMatch(LoginInfo_TF_password.getEditText().getText().toString(),
-                    LoginInfo_TF_validate_password.getEditText().getText().toString() );
-            if (!matchedPasswords){
-                LoginInfo_TF_validate_password.setError("Password not matched");
-            }
-            return validPassword && matchedPasswords;
+            boolean validateEmail = checkEmail();
+            boolean validatePassword = checkPassword();
+            boolean validateMatchedPasswords = checkMatchedPasswords();
+
+            return validateEmail && validatePassword && validateMatchedPasswords;
 
         }
         return false;
+    }
+
+    private boolean checkMatchedPasswords() {
+        ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
+        if (!validateUserAccountInfo.ValidatePasswordMatch(Objects.requireNonNull(LoginInfo_TF_password.getEditText()).getText().toString(),
+                Objects.requireNonNull(LoginInfo_TF_validate_password.getEditText()).getText().toString() )){
+            LoginInfo_TF_validate_password.setError("Password not matched");
+            return false;
+        }
+        else{
+            LoginInfo_TF_validate_password.setError("");
+            return true;
+        }
+    }
+
+    public boolean checkPassword(){
+        ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
+        if (!validateUserAccountInfo.ValidatePasswordRequirements(Objects.requireNonNull(LoginInfo_TF_password.getEditText()).getText().toString())){
+            LoginInfo_TF_password.setError("Password must have at least 8 characters with at least one Capital letter, at least one lower case letter and at least one number ");
+            return false;
+        }
+        else{
+            LoginInfo_TF_password.setError("");
+            return true;
+        }
+
+    }
+     public boolean checkEmail(){
+        ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
+        //check if the user added email
+        if (LoginInfo_TF_email.getEditText().getText().toString().isEmpty()){
+            LoginInfo_TF_email.setError("This field is mandatory");
+            return false;
+        }
+        else if (!validateUserAccountInfo.validateEmail(LoginInfo_TF_email.getEditText().getText().toString())){
+            LoginInfo_TF_email.setError("Invalid email");
+            return false;
+        }
+        else if(FireBaseMethods.getInstance().checkIfEmailExist(LoginInfo_TF_email.getEditText().getText().toString())){
+            LoginInfo_TF_email.setError("Email all ready registered");
+        }
+        else{
+            LoginInfo_TF_email.setError("");
+        }
+        return true;
     }
 }

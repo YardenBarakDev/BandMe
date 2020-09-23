@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import com.bawp.bandme.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class Activity_main extends AppCompatActivity {
+public class Activity_Main extends AppCompatActivity {
 
     private BottomNavigationView Register_BTN_navigation;
 

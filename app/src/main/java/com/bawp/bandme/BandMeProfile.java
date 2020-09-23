@@ -2,7 +2,7 @@ package com.bawp.bandme;
 
 import java.util.ArrayList;
 
-public class MyBandProfile {
+public class BandMeProfile {
 
     private String firstName = "";
     private String lastName = "";
@@ -13,11 +13,11 @@ public class MyBandProfile {
     private String district = "";
     private ArrayList<String> instruments;
 
-    public MyBandProfile() {
+    public BandMeProfile() {
         this.instruments = new ArrayList<>();
     }
 
-    public MyBandProfile(String firstName, String lastName, String password, String email, String selfInfo, String age, String district, ArrayList<String> instruments) {
+    public BandMeProfile(String firstName, String lastName, String password, String email, String selfInfo, String age, String district, ArrayList<String> instruments) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -32,7 +32,7 @@ public class MyBandProfile {
         return firstName;
     }
 
-    public MyBandProfile setFirstName(String firstName) {
+    public BandMeProfile setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -41,7 +41,7 @@ public class MyBandProfile {
         return lastName;
     }
 
-    public MyBandProfile setLastName(String lastName) {
+    public BandMeProfile setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -50,7 +50,7 @@ public class MyBandProfile {
         return password;
     }
 
-    public MyBandProfile setPassword(String password) {
+    public BandMeProfile setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -59,7 +59,7 @@ public class MyBandProfile {
         return email;
     }
 
-    public MyBandProfile setEmail(String email) {
+    public BandMeProfile setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -68,7 +68,7 @@ public class MyBandProfile {
         return selfInfo;
     }
 
-    public MyBandProfile setSelfInfo(String selfInfo) {
+    public BandMeProfile setSelfInfo(String selfInfo) {
         this.selfInfo = selfInfo;
         return this;
     }
@@ -77,7 +77,7 @@ public class MyBandProfile {
         return age;
     }
 
-    public MyBandProfile setAge(String age) {
+    public BandMeProfile setAge(String age) {
         this.age = age;
         return this;
     }
@@ -86,7 +86,7 @@ public class MyBandProfile {
         return district;
     }
 
-    public MyBandProfile setDistrict(String district) {
+    public BandMeProfile setDistrict(String district) {
         this.district = district;
         return this;
     }
@@ -95,7 +95,7 @@ public class MyBandProfile {
         return instruments;
     }
 
-    public MyBandProfile setInstruments(ArrayList<String> instruments) {
+    public BandMeProfile setInstruments(ArrayList<String> instruments) {
         this.instruments = instruments;
         return this;
     }

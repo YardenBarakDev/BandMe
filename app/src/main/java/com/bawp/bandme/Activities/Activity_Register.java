@@ -1,24 +1,29 @@
 package com.bawp.bandme.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationInstruments;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationLoginInfo;
-import com.bawp.bandme.MyBandProfile;
+import com.bawp.bandme.BandMeProfile;
 import com.bawp.bandme.R;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationPersonalData;
 import com.bawp.bandme.fragments.Fragment_Instruments;
 import com.bawp.bandme.fragments.Fragment_LoginInfo;
 import com.bawp.bandme.fragments.Fragment_PersonalData;
-import com.bawp.bandme.util.ValidateUserAccountInfo;
+import com.bawp.bandme.util.FireBaseMethods;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 public class Activity_Register extends AppCompatActivity {
 
@@ -30,12 +35,9 @@ public class Activity_Register extends AppCompatActivity {
     private Fragment_Instruments fragment_instruments;
     private Fragment_PersonalData fragment_personalData;
 
-
-    private ImageView register_IMG_firstStep;
     private ImageView register_IMG_secondStep;
     private ImageView register_IMG_thirdStep;
-    private MyBandProfile myBandProfile;
-    private FirebaseAuth mAuth;
+    private BandMeProfile bandMeProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,45 +45,45 @@ public class Activity_Register extends AppCompatActivity {
         setContentView(R.layout.activity__register);
         findAllViewById();
 
-        myBandProfile = new MyBandProfile();
+        bandMeProfile = new BandMeProfile();
         //fragments
         initFragments();
         addFragments();
-
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
     }
 
 
-    //call Backs
+    /*
+    call Back first page
+     */
     CallBack_RegistrationLoginInfo callBack_registrationLoginInfo = new CallBack_RegistrationLoginInfo() {
         @Override
         public void advanceLoginInfoStep(String email, String password, String validatePassword) {
-            //add email and password to the account creation
-            myBandProfile.setEmail(email).
-                    setPassword(password);
 
+            //add email and password to the account creation
+            bandMeProfile.setEmail(email).
+                    setPassword(password);
             //move to next activity
             currentStep = 2;
             //change image drawable to show advancement
-            register_IMG_firstStep.setImageResource(R.drawable.progress_on);
+            register_IMG_secondStep.setImageResource(R.drawable.progress_on);
             changeFragment();
-
-
         }
     };
 
+
+     /*
+    call Back second page
+     */
     CallBack_RegistrationInstruments callBack_registrationInstruments = new CallBack_RegistrationInstruments() {
         @Override
         public void advanceInstrumentStep(ArrayList<String> instruments) {
             //add email and password to the account creation
-            myBandProfile.setInstruments(instruments);
+            bandMeProfile.setInstruments(instruments);
 
             //move to next activity
             currentStep = 3;
             changeFragment();
-            register_IMG_secondStep.setImageResource(R.drawable.progress_on);
+            register_IMG_thirdStep.setImageResource(R.drawable.progress_on);
         }
 
         @Override
@@ -92,22 +94,30 @@ public class Activity_Register extends AppCompatActivity {
         }
     };
 
+    /*
+   call Back third page
+    */
     CallBack_RegistrationPersonalData callBack_registrationPersonalData = new CallBack_RegistrationPersonalData() {
 
         @Override
-        public void createAnAccount(String firstName, String lastName, String age, String info) {
+        public void createAnAccount(String firstName, String lastName, String age, String info, String district) {
             //add first name, last name, age and personal info to the account creation
-            myBandProfile.setFirstName(firstName).setFirstName(lastName).setAge(age).setSelfInfo(info);
+            bandMeProfile.setFirstName(firstName).setFirstName(lastName).setAge(age).setSelfInfo(info);
+            addBandMeToFireBase();
         }
 
         @Override
         public void backToRegisterInstruments() {
             currentStep = 2;
             changeFragment();
-            register_IMG_secondStep.setImageResource(R.drawable.progress_off);
+            register_IMG_secondStep.setImageResource(R.drawable.progress_on);
         }
     };
 
+    private void addBandMeToFireBase() {
+        FireBaseMethods.getInstance().createNewAccount(this, bandMeProfile);
+        finish();
+    }
 
     private void addFragments() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -159,9 +169,9 @@ public class Activity_Register extends AppCompatActivity {
 
     private void findAllViewById() {
         //images
-        register_IMG_firstStep = findViewById(R.id.register_IMG_firstStep);
         register_IMG_secondStep = findViewById(R.id.register_IMG_secondStep);
         register_IMG_thirdStep = findViewById(R.id.register_IMG_thirdStep);
+
     }
 
 }

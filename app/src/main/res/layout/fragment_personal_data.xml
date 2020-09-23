@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             app:ms_floatingLabelText="District"
             app:ms_hint="District"
+            app:ms_enableErrorLabel="true"
             android:entries="@array/Register_Spinner_IsraelDistricts"/>
 
 
@@ -37,6 +38,7 @@
             android:layout_margin="5dp"
             style="@style/TextDesign"
             app:counterEnabled="true"
+            app:errorEnabled="true"
             app:counterMaxLength="15"
             >
 
@@ -58,6 +60,7 @@
             android:layout_margin="5dp"
             app:counterEnabled="true"
             app:counterMaxLength="15"
+            app:errorEnabled="true"
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -77,6 +80,7 @@
             android:layout_margin="5dp"
             app:counterEnabled="true"
             app:counterMaxLength="3"
+            app:errorEnabled="true"
             >
 
             <com.google.android.material.textfield.TextInputEditText

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,10 @@ import com.bawp.bandme.call_back_interface.CallBack_RegistrationPersonalData;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
+
+import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class Fragment_PersonalData extends Fragment {
 
@@ -26,6 +31,8 @@ public class Fragment_PersonalData extends Fragment {
     private MaterialButton PersonalData_BTN_Login;
     private ImageView PersonalData_IMAGE_leftArrow;
     private ImageView PersonalData_IMAGE_backGround;
+    private MaterialSpinner PersonalData_Spinner_district;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if (view == null){
@@ -62,6 +69,8 @@ public class Fragment_PersonalData extends Fragment {
         //images
         PersonalData_IMAGE_leftArrow = view.findViewById(R.id.PersonalData_IMAGE_leftArrow);
         PersonalData_IMAGE_backGround = view.findViewById(R.id.PersonalData_IMAGE_backGround);
+        //spinner
+        PersonalData_Spinner_district = view.findViewById(R.id.PersonalData_Spinner_district);
     }
 
     public static Fragment_PersonalData newInstance(){
@@ -82,14 +91,58 @@ public class Fragment_PersonalData extends Fragment {
     private void buttonsClick(View view) {
         switch (((String) view.getTag())) {
             case "PersonalData_BTN_Login":
-                callBack_registrationPersonalData.createAnAccount(PersonalData_TF_firstName.getEditText().getText().toString(),
-                        PersonalData_TF_lastName.getEditText().getText().toString(),
-                        PersonalData_TF_age.getEditText().getText().toString(),
-                        PersonalData_TF_info.getEditText().getText().toString());
+                if (validInfo())
+                callBack_registrationPersonalData.createAnAccount(Objects.requireNonNull(PersonalData_TF_firstName.getEditText()).getText().toString(),
+                        Objects.requireNonNull(PersonalData_TF_lastName.getEditText()).getText().toString(),
+                        Objects.requireNonNull(PersonalData_TF_age.getEditText()).getText().toString(),
+                        Objects.requireNonNull(PersonalData_TF_info.getEditText()).getText().toString(),
+                        PersonalData_Spinner_district.getSelectedItem().toString());
                 break;
             case "PersonalData_IMAGE_leftArrow":
                 callBack_registrationPersonalData.backToRegisterInstruments();
                 break;
+        }
+    }
+
+    private boolean validInfo() {
+        boolean checkFirstName = validFirstName();
+        boolean checkLastName = validLastName();
+        boolean checkDistrict = validDistrict();
+
+        return checkFirstName && checkLastName && checkDistrict;
+    }
+
+    private boolean validFirstName(){
+        if (Objects.requireNonNull(PersonalData_TF_firstName.getEditText()).getText().toString().length() < 2){
+            PersonalData_TF_firstName.setError("Mandatory field");
+            return false;
+        }
+        else{
+            PersonalData_TF_firstName.setError("");
+            return true;
+        }
+    }
+
+    private boolean validLastName() {
+        if (Objects.requireNonNull(PersonalData_TF_lastName.getEditText()).getText().toString().length() < 2){
+            PersonalData_TF_lastName.setError("Mandatory field");
+            return false;
+        }
+        else{
+            PersonalData_TF_lastName.setError("");
+            return true;
+        }
+    }
+
+    private boolean validDistrict() {
+        if (PersonalData_Spinner_district.getSelectedItemPosition() == -1){
+            PersonalData_Spinner_district.setError("Please choose district");
+            return false;
+        }
+        else{
+            PersonalData_Spinner_district.setError("");
+            PersonalData_Spinner_district.setErrorColor(PersonalData_Spinner_district.getBaseColor());
+            return true;
         }
     }
 }

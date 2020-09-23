@@ -8,5 +8,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         MySP.initHelper(this);
+        FireBaseMethods.initHelper();
     }
 }

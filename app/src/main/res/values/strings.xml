@@ -47,5 +47,10 @@
     <string name="PersonalData_TF_lastName">Last name</string>
     <string name="LoginInfo_TF_info">Write a little bit about yourself</string>
     <string name="PersonalData_BTN_Login">Create an account</string>
+    <string name="LoginInfo_an_email_will_be_send_for_verification">An email will be send for verification</string>
+    <string name="register_img_advancement">register_IMG_advancement</string>
+    <string name="SignIn_ET_password">password</string>
+    <string name="SignIn_ET_email">email</string>
+    <string name="signIn_background">signIn background</string>
 
 </resources>

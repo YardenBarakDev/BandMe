@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Activities.Activity_Register"
     android:orientation="vertical"
     android:background="@color/backGround"
@@ -31,23 +30,23 @@
             android:id="@+id/register_IMG_firstStep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/progress_off"
+            android:src="@drawable/progress_on"
             android:layout_margin="10dp"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/register_img_advancement" />
         <ImageView
             android:id="@+id/register_IMG_secondStep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/progress_off"
             android:layout_margin="10dp"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/register_img_advancement" />
         <ImageView
             android:id="@+id/register_IMG_thirdStep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/progress_off"
             android:layout_margin="10dp"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/register_img_advancement" />
     </LinearLayout>
 
 </RelativeLayout>
