@@ -1,5 +1,6 @@
 package com.bawp.bandme.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +15,12 @@ import android.widget.TextView;
 import com.bawp.bandme.R;
 import com.bawp.bandme.util.FireBaseMethods;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.auth.AuthResult;
 
 
 public class Activity_SignIn extends AppCompatActivity {
@@ -25,6 +30,7 @@ public class Activity_SignIn extends AppCompatActivity {
 
     private TextView SignIn_LBL_forgot_password;
     private TextView SignIn_LBL_firstTime_register;
+    private TextView SignIn_ET_errorText;
 
     private MaterialButton SignIn_BTN_login;
 
@@ -34,6 +40,7 @@ public class Activity_SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+
 
         findViews();
         addListeners();
@@ -52,7 +59,7 @@ public class Activity_SignIn extends AppCompatActivity {
     private void SignInActivityClick(View view) {
         switch (((String) view.getTag())) {
             case "SignIn_BTN_login":
-
+                checkCredentials();
                 break;
             case "SignIn_LBL_firstTime_register":
                 Intent intent = new Intent(Activity_SignIn.this, Activity_Register.class);
@@ -63,6 +70,26 @@ public class Activity_SignIn extends AppCompatActivity {
                 sendPassword();
                 break;
         }
+    }
+
+    private void checkCredentials() {
+        FireBaseMethods.getInstance().getmAuth().signInWithEmailAndPassword(SignIn_ET_email.getEditText().getText().toString(),
+                SignIn_ET_password.getEditText().getText().toString())
+
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent intent = new Intent(Activity_SignIn.this, Activity_Main.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            SignIn_ET_errorText.setText(R.string.SignIn_ET_errorText);
+                        }
+
+                    }
+                });
     }
 
     private void sendPassword() {
@@ -108,7 +135,7 @@ public class Activity_SignIn extends AppCompatActivity {
         SignIn_LBL_firstTime_register = findViewById(R.id.SignIn_LBL_firstTime_register);
 
         SignIn_BTN_login = findViewById(R.id.SignIn_BTN_login);
-
+        SignIn_ET_errorText = findViewById(R.id.SignIn_ET_errorText);
         signIn_IMAGE_background = findViewById(R.id.signIn_IMAGE_background);
     }
 

@@ -85,6 +85,15 @@
     android:clickable="true"
     android:focusable="true" />
 
+    <TextView
+        android:id="@+id/SignIn_ET_errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_above="@id/SignIn_ET_email"
+        android:layout_marginStart="25dp"
+        android:textColor="@color/Red"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,7 +104,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/SignIn_BTN_login"
-            android:tag="SignIn_BTN_Login"
+            android:tag="SignIn_BTN_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/SignIn_BTN_Login"

@@ -7,16 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".Activities.Activity_Main">
 
-
+    <FrameLayout
+        android:id="@+id/Main_LAY_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/Main_BTNVav_navigation"
+        />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/Register_BTN_navigation"
+        android:id="@+id/Main_BTNVav_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/buttom_nav_menu"
+        app:itemTextColor="@color/Black"
         android:layout_alignParentBottom="true"
-        style="@style/navigationButton"
         />
 
 </RelativeLayout>

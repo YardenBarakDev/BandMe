@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.bawp.bandme.R;
@@ -92,10 +90,14 @@ public class Fragment_PersonalData extends Fragment {
         switch (((String) view.getTag())) {
             case "PersonalData_BTN_Login":
                 if (validInfo())
-                callBack_registrationPersonalData.createAnAccount(Objects.requireNonNull(PersonalData_TF_firstName.getEditText()).getText().toString(),
-                        Objects.requireNonNull(PersonalData_TF_lastName.getEditText()).getText().toString(),
-                        Objects.requireNonNull(PersonalData_TF_age.getEditText()).getText().toString(),
-                        Objects.requireNonNull(PersonalData_TF_info.getEditText()).getText().toString(),
+                callBack_registrationPersonalData.createAnAccount(Objects.requireNonNull(
+                        PersonalData_TF_firstName.getEditText()).getText().toString().trim(),
+                        Objects.requireNonNull(
+                                PersonalData_TF_lastName.getEditText()).getText().toString().trim(),
+                        Objects.requireNonNull(
+                                PersonalData_TF_age.getEditText()).getText().toString().trim(),
+                        Objects.requireNonNull(
+                                PersonalData_TF_info.getEditText()).getText().toString().trim(),
                         PersonalData_Spinner_district.getSelectedItem().toString());
                 break;
             case "PersonalData_IMAGE_leftArrow":

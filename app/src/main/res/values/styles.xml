@@ -16,9 +16,9 @@
 
     <style name="navigationButton" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/design_default_color_secondary_variant</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/design_default_color_surface</item>
+        <item name="colorPrimaryDark">@color/backGround</item>
+        <item name="colorAccent">@color/backGround</item>
     </style>
 
     <style name="TextDesign" parent="Theme.MaterialComponents.DayNight.NoActionBar">

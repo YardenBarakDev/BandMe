@@ -50,7 +50,18 @@
     <string name="LoginInfo_an_email_will_be_send_for_verification">An email will be send for verification</string>
     <string name="register_img_advancement">register_IMG_advancement</string>
     <string name="SignIn_ET_password">password</string>
+    <string name="SignIn_ET_errorText">Invalid user name or password</string>
     <string name="SignIn_ET_email">email</string>
     <string name="signIn_background">signIn background</string>
+    <string name="UserProfile_profilePicture">User Profile</string>
+    <string name="UserProfile_chat_symbol">chat symbol</string>
+    <string name="UserProfile_menu_symbol">menu symbol</string>
+    <string name="UserProfile_LBL_firstName">First name: </string>
+    <string name="UserProfile_LBL_lastName">Last name:</string>
+    <string name="UserProfile_LBL_instruments">Isntruments:</string>
+    <string name="UserProfile_LBL_age">Age:</string>
+    <string name="UserProfile_LBL_info">info:</string>
+    <string name="UserProfile_LBL_district">District</string>
+    <string name="Instruments_TF_other">Other</string>
 
 </resources>

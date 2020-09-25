@@ -1,34 +1,26 @@
 package com.bawp.bandme.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
+import com.bawp.bandme.call_back_interface.CallBack_FireBaseDatabase;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationInstruments;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationLoginInfo;
-import com.bawp.bandme.BandMeProfile;
+import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.R;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationPersonalData;
 import com.bawp.bandme.fragments.Fragment_Instruments;
 import com.bawp.bandme.fragments.Fragment_LoginInfo;
 import com.bawp.bandme.fragments.Fragment_PersonalData;
 import com.bawp.bandme.util.FireBaseMethods;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
+
 
 public class Activity_Register extends AppCompatActivity {
 
 
-    private final int MAX_STEPS = 3;
     private int currentStep = 1;
 
     private Fragment_LoginInfo fragment_loginInfo;
@@ -38,6 +30,9 @@ public class Activity_Register extends AppCompatActivity {
     private ImageView register_IMG_secondStep;
     private ImageView register_IMG_thirdStep;
     private BandMeProfile bandMeProfile;
+
+    private String userEmail;
+    private String userPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +44,9 @@ public class Activity_Register extends AppCompatActivity {
         //fragments
         initFragments();
         addFragments();
+
+        //fireBase
+        FireBaseMethods.getInstance().setActivityCallBack(callBack_fireBaseDatabase);
     }
 
 
@@ -59,9 +57,9 @@ public class Activity_Register extends AppCompatActivity {
         @Override
         public void advanceLoginInfoStep(String email, String password, String validatePassword) {
 
-            //add email and password to the account creation
-            bandMeProfile.setEmail(email).
-                    setPassword(password);
+            //get email and password from the user input
+            userEmail = email;
+            userPassword = password;
             //move to next activity
             currentStep = 2;
             //change image drawable to show advancement
@@ -102,7 +100,7 @@ public class Activity_Register extends AppCompatActivity {
         @Override
         public void createAnAccount(String firstName, String lastName, String age, String info, String district) {
             //add first name, last name, age and personal info to the account creation
-            bandMeProfile.setFirstName(firstName).setFirstName(lastName).setAge(age).setSelfInfo(info);
+            bandMeProfile.setFirstName(firstName).setLastName(lastName).setAge(age).setSelfInfo(info);
             addBandMeToFireBase();
         }
 
@@ -114,10 +112,20 @@ public class Activity_Register extends AppCompatActivity {
         }
     };
 
+    //CallBackFireBase
+    CallBack_FireBaseDatabase callBack_fireBaseDatabase = new CallBack_FireBaseDatabase() {
+
+        @Override
+        public void finishedAccountCreation() {
+            FireBaseMethods.getInstance().addUserClassInfo(bandMeProfile);
+            finish();
+        }
+    };
+
     private void addBandMeToFireBase() {
-        FireBaseMethods.getInstance().createNewAccount(this, bandMeProfile);
-        finish();
+        FireBaseMethods.getInstance().createNewAccount(this, userEmail, userPassword);
     }
+
 
     private void addFragments() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -142,7 +150,7 @@ public class Activity_Register extends AppCompatActivity {
         fragment_instruments = Fragment_Instruments.newInstance();
         fragment_instruments.setActivityCallBack(callBack_registrationInstruments);
 
-        fragment_personalData = new Fragment_PersonalData();
+        fragment_personalData = Fragment_PersonalData.newInstance();
         fragment_personalData.setActivityCallBack(callBack_registrationPersonalData);
     }
 

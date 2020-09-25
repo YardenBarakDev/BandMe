@@ -12,6 +12,7 @@ import com.bawp.bandme.call_back_interface.CallBack_RegistrationInstruments;
 import com.bawp.bandme.R;
 import com.bawp.bandme.util.MySP;
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ public class Fragment_Instruments extends Fragment {
     //navigation images
     private ImageView Instruments_IMAGE_leftArrow;
     private ImageView Instruments_IMAGE_rightArrow;
+
+    private TextInputLayout Instruments_TF_other;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -100,6 +103,8 @@ public class Fragment_Instruments extends Fragment {
         //navigation images
         Instruments_IMAGE_rightArrow = view.findViewById(R.id.Instruments_IMAGE_rightArrow);
         Instruments_IMAGE_leftArrow = view.findViewById(R.id.Instruments_IMAGE_leftArrow);
+
+        Instruments_TF_other = view.findViewById(R.id.Instruments_TF_other);
     }
 
     public static Fragment_Instruments newInstance(){
@@ -121,6 +126,8 @@ public class Fragment_Instruments extends Fragment {
     private void navigationImages(View view) {
         switch (((String) view.getTag())) {
             case "Instruments_IMAGE_rightArrow":
+                if (!Instruments_TF_other.getEditText().getText().toString().trim().isEmpty())
+                    instruments.add(Instruments_TF_other.getEditText().getText().toString().trim());
                 callBack_registrationInstruments.advanceInstrumentStep(instruments);
                 break;
             case "Instruments_IMAGE_leftArrow":

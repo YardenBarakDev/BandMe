@@ -1,4 +1,4 @@
-package com.bawp.bandme;
+package com.bawp.bandme.model;
 
 import java.util.ArrayList;
 
@@ -6,8 +6,6 @@ public class BandMeProfile {
 
     private String firstName = "";
     private String lastName = "";
-    private String password = "";
-    private String email = "";
     private String selfInfo = "";
     private String age = "";
     private String district = "";
@@ -17,11 +15,9 @@ public class BandMeProfile {
         this.instruments = new ArrayList<>();
     }
 
-    public BandMeProfile(String firstName, String lastName, String password, String email, String selfInfo, String age, String district, ArrayList<String> instruments) {
+    public BandMeProfile(String firstName, String lastName, String selfInfo, String age, String district, ArrayList<String> instruments) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
-        this.email = email;
         this.selfInfo = selfInfo;
         this.age = age;
         this.district = district;
@@ -43,24 +39,6 @@ public class BandMeProfile {
 
     public BandMeProfile setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public BandMeProfile setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public BandMeProfile setEmail(String email) {
-        this.email = email;
         return this;
     }
 

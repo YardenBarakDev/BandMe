@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.Fragment_Instruments"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/Instruments_IMAGE_backGround"
@@ -240,4 +240,28 @@
         android:focusable="true"
         android:layout_margin="10dp"
         android:contentDescription="@string/left_arrow" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Instruments_TF_other"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        style="@style/TextDesign"
+        android:layout_below="@+id/Row_2"
+        app:counterMaxLength="15"
+        app:counterEnabled="true"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/Instruments_TF_other"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:ems="10"
+            android:maxLength="15"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 </RelativeLayout>

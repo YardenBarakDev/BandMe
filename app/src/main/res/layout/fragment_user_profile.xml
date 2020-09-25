@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.Fragment_UserProfile">
+
+    <ImageView
+        android:id="@+id/UserProfile_IMAGE_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/app_background"
+        />
+
+    <RelativeLayout
+        android:id="@+id/UserProfile_LAY_topActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_symbol"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/UserProfile_menu_symbol" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chat_symbol"
+            android:layout_alignParentStart="true"
+            android:layout_margin="5dp"
+            android:contentDescription="@string/UserProfile_chat_symbol" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/UserProfile_LAY_profilePicture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/UserProfile_LAY_topActionBar"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:cardCornerRadius="360dp"
+                app:strokeColor="@color/Black"
+                app:strokeWidth="5dp"
+                android:layout_gravity="center"
+                app:cardPreventCornerOverlap="false"
+                >
+
+                <ImageView
+                    android:id="@+id/UserProfile_IMAGE_profilePicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:contentDescription="@string/UserProfile_profilePicture"
+                    />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:background="@color/backGround"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UserProfile_LBL_firstName"
+                    android:textSize="15sp"
+                    android:textColor="@color/Black"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+
+                <TextView
+                    android:id="@+id/UserProfile_LBL_firstName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UserProfile_LBL_lastName"
+                    android:textSize="15sp"
+                    android:textColor="@color/Black"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+
+                <TextView
+                    android:id="@+id/UserProfile_LBL_lastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UserProfile_LBL_age"
+                    android:textSize="15sp"
+                    android:textColor="@color/Black"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+
+                <TextView
+                    android:id="@+id/UserProfile_LBL_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UserProfile_LBL_district"
+                    android:textSize="15sp"
+                    android:textColor="@color/Black"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+
+                <TextView
+                    android:id="@+id/UserProfile_LBL_district"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="5"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UserProfile_LBL_instruments"
+                    android:textSize="15sp"
+                    android:textColor="@color/Black"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+
+                <TextView
+                    android:id="@+id/UserProfile_LBL_instruments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="20"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/UserProfile_LBL_info"
+                    android:textColor="@color/Black"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+
+                <ScrollView
+                android:id="@+id/textAreaScroller"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <TextView
+
+                    android:id="@+id/UserProfile_LBL_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cherry_cream_soda"
+                    />
+                </ScrollView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

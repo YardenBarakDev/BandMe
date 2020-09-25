@@ -69,9 +69,9 @@ public class Fragment_LoginInfo extends Fragment {
 
             if (validateInfo()){
                 callBack_registrationLoginInfo.advanceLoginInfoStep(
-                        LoginInfo_TF_email.getEditText().getText().toString(),
-                        LoginInfo_TF_password.getEditText().getText().toString(),
-                        LoginInfo_TF_validate_password.getEditText().getText().toString());
+                        LoginInfo_TF_email.getEditText().getText().toString().trim(),
+                        LoginInfo_TF_password.getEditText().getText().toString().trim(),
+                        LoginInfo_TF_validate_password.getEditText().getText().toString().trim());
             }
         }
     };
@@ -120,10 +120,11 @@ public class Fragment_LoginInfo extends Fragment {
      public boolean checkEmail(){
         ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
         //check if the user added email
-        if (LoginInfo_TF_email.getEditText().getText().toString().isEmpty()){
+        if (LoginInfo_TF_email.getEditText().getText().toString().trim().isEmpty()){
             LoginInfo_TF_email.setError("This field is mandatory");
             return false;
         }
+        //check if the email address has a real structure
         else if (!validateUserAccountInfo.validateEmail(LoginInfo_TF_email.getEditText().getText().toString())){
             LoginInfo_TF_email.setError("Invalid email");
             return false;

@@ -6,5 +6,7 @@
     <color name="backGround">#F1F1F1</color>
     <color name="Black">#000000</color>
     <color name="White">#FFFFFF</color>
+    <color name="Red">#FF0000</color>
     <color name="Register_info_background">#AFAFAF</color>
+
 </resources>
