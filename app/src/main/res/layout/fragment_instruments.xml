@@ -246,7 +246,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        style="@style/TextDesign"
         android:layout_below="@+id/Row_2"
         app:counterMaxLength="15"
         app:counterEnabled="true"

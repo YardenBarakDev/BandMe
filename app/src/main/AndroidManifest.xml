@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.Activity_Main">
 
+
         </activity>
 
         <activity
@@ -29,7 +30,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <meta-data

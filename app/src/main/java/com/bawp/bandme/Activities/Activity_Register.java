@@ -46,7 +46,7 @@ public class Activity_Register extends AppCompatActivity {
         addFragments();
 
         //fireBase
-        FireBaseMethods.getInstance().setActivityCallBack(callBack_fireBaseDatabase);
+        FireBaseMethods.getInstance().setCallBack_fireBaseDatabase(callBack_fireBaseDatabase);
     }
 
 
@@ -54,6 +54,7 @@ public class Activity_Register extends AppCompatActivity {
     call Back first page
      */
     CallBack_RegistrationLoginInfo callBack_registrationLoginInfo = new CallBack_RegistrationLoginInfo() {
+
         @Override
         public void advanceLoginInfoStep(String email, String password, String validatePassword) {
 
@@ -101,7 +102,7 @@ public class Activity_Register extends AppCompatActivity {
         public void createAnAccount(String firstName, String lastName, String age, String info, String district) {
             //add first name, last name, age and personal info to the account creation
             bandMeProfile.setFirstName(firstName).setLastName(lastName).setAge(age).setSelfInfo(info);
-            addBandMeToFireBase();
+            addBandMeProfileToFireBase();
         }
 
         @Override
@@ -113,17 +114,17 @@ public class Activity_Register extends AppCompatActivity {
     };
 
     //CallBackFireBase
+    //after firebase created the user and saved the user info it will close this activity
     CallBack_FireBaseDatabase callBack_fireBaseDatabase = new CallBack_FireBaseDatabase() {
 
         @Override
         public void finishedAccountCreation() {
-            FireBaseMethods.getInstance().addUserClassInfo(bandMeProfile);
             finish();
         }
     };
 
-    private void addBandMeToFireBase() {
-        FireBaseMethods.getInstance().createNewAccount(this, userEmail, userPassword);
+    private void addBandMeProfileToFireBase() {
+        FireBaseMethods.getInstance().createNewAccount(this, userEmail, userPassword, bandMeProfile);
     }
 
 

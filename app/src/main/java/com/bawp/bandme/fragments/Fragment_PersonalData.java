@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.bawp.bandme.R;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationPersonalData;
+import com.bawp.bandme.util.ValidateUserAccountInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,11 +32,16 @@ public class Fragment_PersonalData extends Fragment {
     private ImageView PersonalData_IMAGE_backGround;
     private MaterialSpinner PersonalData_Spinner_district;
 
+    //init util to check user input
+    private ValidateUserAccountInfo validateUserAccountInfo;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if (view == null){
             view = inflater.inflate(R.layout.fragment_personal_data, container, false);
         }
+        //init util to check user input
+        validateUserAccountInfo = new ValidateUserAccountInfo();
         findViews();
         glideBackground();
         setListeners();
@@ -46,6 +52,118 @@ public class Fragment_PersonalData extends Fragment {
     private void setListeners() {
         PersonalData_IMAGE_leftArrow.setOnClickListener(personalDataListener);
         PersonalData_BTN_Login.setOnClickListener(personalDataListener);
+    }
+
+
+    public static Fragment_PersonalData newInstance(){
+            return new Fragment_PersonalData();
+        }
+
+    public void setActivityCallBack(CallBack_RegistrationPersonalData callBack_registrationPersonalData){
+        this.callBack_registrationPersonalData = callBack_registrationPersonalData;
+    }
+
+    View.OnClickListener personalDataListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            buttonsClick(view);
+        }
+    };
+
+    private void buttonsClick(View view) {
+        switch (((String) view.getTag())) {
+            case "PersonalData_BTN_Login":
+                //send the user input to validation, if the input is valid it will
+                //send the info to the activity and the activity will create the user profile
+                if (validInfo())
+                callBack_registrationPersonalData.createAnAccount(Objects.requireNonNull(
+                        PersonalData_TF_firstName.getEditText()).getText().toString().trim(),
+                        Objects.requireNonNull(
+                                PersonalData_TF_lastName.getEditText()).getText().toString().trim(),
+                        Objects.requireNonNull(
+                                PersonalData_TF_age.getEditText()).getText().toString().trim(),
+                        Objects.requireNonNull(
+                                PersonalData_TF_info.getEditText()).getText().toString().trim(),
+                        PersonalData_Spinner_district.getSelectedItem().toString());
+                break;
+            case "PersonalData_IMAGE_leftArrow":
+                //return to the previous registration page
+                callBack_registrationPersonalData.backToRegisterInstruments();
+                break;
+        }
+    }
+
+    //check if the first name, last name and district are valid
+    private boolean validInfo() {
+        boolean checkFirstName = validFirstName();
+        boolean checkLastName = validLastName();
+        boolean checkDistrict = validDistrict();
+
+        return checkFirstName && checkLastName && checkDistrict;
+    }
+
+    private boolean validFirstName(){
+        //check if null
+        if (PersonalData_TF_firstName.getEditText().getText() == null)
+            return false;
+
+        //check if the user typed more then 1 digit
+        else if (PersonalData_TF_firstName.getEditText().getText().toString().trim().isEmpty()){
+            PersonalData_TF_firstName.setError("Mandatory field");
+            return false;
+        }
+        //check if the name length is longer then 2
+        else if (PersonalData_TF_firstName.getEditText().getText().toString().trim().length() < 2){
+            PersonalData_TF_firstName.setError("Must contain at least two letters");
+            return false;
+        }
+        //check if user only entered letters
+        else if (!validateUserAccountInfo.validateNames(PersonalData_TF_firstName.getEditText().getText().toString().trim())){
+            PersonalData_TF_firstName.setError("Must contain only alphabetical letters");
+            return false;
+        }
+        else{
+            PersonalData_TF_firstName.setError("");
+            return true;
+        }
+    }
+
+    private boolean validLastName() {
+        //check if null
+        if (PersonalData_TF_lastName.getEditText().getText() == null)
+            return false;
+
+        //check if the user typed more then 1 digit
+        else if (PersonalData_TF_lastName.getEditText().getText().toString().trim().isEmpty()){
+            PersonalData_TF_lastName.setError("Mandatory field");
+            return false;
+        }
+        //check if the name length is longer then 2
+        else if (PersonalData_TF_lastName.getEditText().getText().toString().trim().length() < 2){
+            PersonalData_TF_lastName.setError("Must contain at least two letters");
+            return false;
+        }
+        //check if user only entered letters
+        else if (!validateUserAccountInfo.validateNames(PersonalData_TF_lastName.getEditText().getText().toString().trim())){
+            PersonalData_TF_lastName.setError("Must contain only alphabetical letters");
+            return false;
+        }
+        else{
+            PersonalData_TF_lastName.setError("");
+            return true;
+        }
+    }
+
+    private boolean validDistrict() {
+        if (PersonalData_Spinner_district.getSelectedItemPosition() == -1){
+            PersonalData_Spinner_district.setError("Please choose district");
+            return false;
+        }
+        else{
+            PersonalData_Spinner_district.setError("");
+            PersonalData_Spinner_district.setErrorColor(PersonalData_Spinner_district.getBaseColor());
+            return true;
+        }
     }
 
     private void glideBackground() {
@@ -69,82 +187,5 @@ public class Fragment_PersonalData extends Fragment {
         PersonalData_IMAGE_backGround = view.findViewById(R.id.PersonalData_IMAGE_backGround);
         //spinner
         PersonalData_Spinner_district = view.findViewById(R.id.PersonalData_Spinner_district);
-    }
-
-    public static Fragment_PersonalData newInstance(){
-            return new Fragment_PersonalData();
-        }
-
-    public void setActivityCallBack(CallBack_RegistrationPersonalData callBack_registrationPersonalData){
-        this.callBack_registrationPersonalData = callBack_registrationPersonalData;
-    }
-
-    View.OnClickListener personalDataListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            buttonsClick(view);
-        }
-    };
-
-    private void buttonsClick(View view) {
-        switch (((String) view.getTag())) {
-            case "PersonalData_BTN_Login":
-                if (validInfo())
-                callBack_registrationPersonalData.createAnAccount(Objects.requireNonNull(
-                        PersonalData_TF_firstName.getEditText()).getText().toString().trim(),
-                        Objects.requireNonNull(
-                                PersonalData_TF_lastName.getEditText()).getText().toString().trim(),
-                        Objects.requireNonNull(
-                                PersonalData_TF_age.getEditText()).getText().toString().trim(),
-                        Objects.requireNonNull(
-                                PersonalData_TF_info.getEditText()).getText().toString().trim(),
-                        PersonalData_Spinner_district.getSelectedItem().toString());
-                break;
-            case "PersonalData_IMAGE_leftArrow":
-                callBack_registrationPersonalData.backToRegisterInstruments();
-                break;
-        }
-    }
-
-    private boolean validInfo() {
-        boolean checkFirstName = validFirstName();
-        boolean checkLastName = validLastName();
-        boolean checkDistrict = validDistrict();
-
-        return checkFirstName && checkLastName && checkDistrict;
-    }
-
-    private boolean validFirstName(){
-        if (Objects.requireNonNull(PersonalData_TF_firstName.getEditText()).getText().toString().length() < 2){
-            PersonalData_TF_firstName.setError("Mandatory field");
-            return false;
-        }
-        else{
-            PersonalData_TF_firstName.setError("");
-            return true;
-        }
-    }
-
-    private boolean validLastName() {
-        if (Objects.requireNonNull(PersonalData_TF_lastName.getEditText()).getText().toString().length() < 2){
-            PersonalData_TF_lastName.setError("Mandatory field");
-            return false;
-        }
-        else{
-            PersonalData_TF_lastName.setError("");
-            return true;
-        }
-    }
-
-    private boolean validDistrict() {
-        if (PersonalData_Spinner_district.getSelectedItemPosition() == -1){
-            PersonalData_Spinner_district.setError("Please choose district");
-            return false;
-        }
-        else{
-            PersonalData_Spinner_district.setError("");
-            PersonalData_Spinner_district.setErrorColor(PersonalData_Spinner_district.getBaseColor());
-            return true;
-        }
     }
 }

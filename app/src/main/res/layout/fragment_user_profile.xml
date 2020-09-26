@@ -46,35 +46,27 @@
         android:layout_below="@+id/UserProfile_LAY_topActionBar"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             android:layout_weight="1"
             >
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:cardCornerRadius="360dp"
-                app:strokeColor="@color/Black"
-                app:strokeWidth="5dp"
-                android:layout_gravity="center"
-                app:cardPreventCornerOverlap="false"
-                >
+           <com.google.android.material.imageview.ShapeableImageView
+               android:id="@+id/UserProfile_IMAGE_profilePicture"
+               android:layout_width="150dp"
+               android:layout_height="150dp"
+               android:scaleType="fitXY"
+               android:padding="5dp"
+               app:strokeWidth="4dp"
+               app:strokeColor="@android:color/black"
+               app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+               android:layout_centerInParent="true"
+               />
 
-                <ImageView
-                    android:id="@+id/UserProfile_IMAGE_profilePicture"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_launcher_foreground"
-                    android:contentDescription="@string/UserProfile_profilePicture"
-                    />
 
-            </com.google.android.material.card.MaterialCardView>
-
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <LinearLayout

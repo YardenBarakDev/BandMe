@@ -55,7 +55,7 @@ public class Fragment_UserProfile extends Fragment {
 
     private void fetchUserInfoFromFirebase() {
 
-        //MyBand user info fetch
+        //MyBand user fetch info
         FireBaseMethods.getInstance().getMyRef().child(Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getUid()))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -81,12 +81,15 @@ public class Fragment_UserProfile extends Fragment {
 
             @Override
             public void onSuccess(Uri uri) {
+                //find picture in storage, upload it from link using glide
                 setProfilePictureFromFireBaseLink(uri);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 Log.d("jjjj", "profile picture fail");
+                //if can't find picture, set profile picture as drawable
+                UserProfile_IMAGE_profilePicture.setImageResource(R.drawable.profile);
             }
         });
     }
@@ -97,13 +100,18 @@ public class Fragment_UserProfile extends Fragment {
         UserProfile_LBL_age.setText(bandMeProfile.getAge());
         UserProfile_LBL_info.setText(bandMeProfile.getSelfInfo());
 
-        StringBuilder instruments = new StringBuilder();
-        for (int i = 0; i < bandMeProfile.getInstruments().size(); i++) {
-            instruments.append(bandMeProfile.getInstruments().get(i)).append(", ");
+        if (bandMeProfile.getInstruments().size() == 0){
+            StringBuilder instruments = new StringBuilder();
+            for (int i = 0; i < bandMeProfile.getInstruments().size(); i++) {
+                if (i < bandMeProfile.getInstruments().size() -1)
+                    instruments.append(bandMeProfile.getInstruments().get(i)).append(", ");
+            }
+            UserProfile_LBL_instruments.setText(instruments);
         }
-        //remove the last ','
-        String fixedString = instruments.substring(0, instruments.length()-2);
-        UserProfile_LBL_instruments.setText(fixedString);
+        else{
+            UserProfile_LBL_instruments.setText("");
+        }
+
     }
 
     private void findView() {

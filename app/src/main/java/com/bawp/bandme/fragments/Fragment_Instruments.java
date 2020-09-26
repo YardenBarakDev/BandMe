@@ -76,36 +76,6 @@ public class Fragment_Instruments extends Fragment {
         Instruments_IMAGE_leftArrow.setOnClickListener(navigationImagesListener);
     }
 
-    private void glideBackground() {
-        Glide
-                .with(this)
-                .load(R.drawable.background_image)
-                .into(Instruments_IMAGE_backGround);
-    }
-    private void findView() {
-        //background image
-        Instruments_IMAGE_backGround = view.findViewById(R.id.Instruments_IMAGE_backGround);
-
-        //ImageButton
-        Instruments_IMAGE_electric_guitar = view.findViewById(R.id.Instruments_IMAGE_electric_guitar);
-        Instruments_IMAGE_bass_guitar = view.findViewById(R.id.Instruments_IMAGE_bass_guitar);
-        Instruments_IMAGE_drums = view.findViewById(R.id.Instruments_IMAGE_drums);
-        Instruments_IMAGE_keyboard = view.findViewById(R.id.Instruments_IMAGE_keyboard);
-        Instruments_IMAGE_singer = view.findViewById(R.id.Instruments_IMAGE_singer);
-        Instruments_IMAGE_flute = view.findViewById(R.id.Instruments_IMAGE_flute);
-        Instruments_IMAGE_dj = view.findViewById(R.id.Instruments_IMAGE_dj);
-        Instruments_IMAGE_mandolin = view.findViewById(R.id.Instruments_IMAGE_mandolin);
-        Instruments_IMAGE_violin = view.findViewById(R.id.Instruments_IMAGE_violin);
-        Instruments_IMAGE_percussion = view.findViewById(R.id.Instruments_IMAGE_percussion);
-        Instruments_IMAGE_piano = view.findViewById(R.id.Instruments_IMAGE_piano);
-        Instruments_IMAGE_saxophone = view.findViewById(R.id.Instruments_IMAGE_saxophone);
-
-        //navigation images
-        Instruments_IMAGE_rightArrow = view.findViewById(R.id.Instruments_IMAGE_rightArrow);
-        Instruments_IMAGE_leftArrow = view.findViewById(R.id.Instruments_IMAGE_leftArrow);
-
-        Instruments_TF_other = view.findViewById(R.id.Instruments_TF_other);
-    }
 
     public static Fragment_Instruments newInstance(){
         return new Fragment_Instruments();
@@ -126,11 +96,15 @@ public class Fragment_Instruments extends Fragment {
     private void navigationImages(View view) {
         switch (((String) view.getTag())) {
             case "Instruments_IMAGE_rightArrow":
-                if (!Instruments_TF_other.getEditText().getText().toString().trim().isEmpty())
+                if (Instruments_TF_other.getEditText().getText() != null &&
+                        !Instruments_TF_other.getEditText().getText().toString().trim().isEmpty()) {
                     instruments.add(Instruments_TF_other.getEditText().getText().toString().trim());
+                }
+                //change to the next registration fragment
                 callBack_registrationInstruments.advanceInstrumentStep(instruments);
                 break;
             case "Instruments_IMAGE_leftArrow":
+                //return to the previous registration fragment
                 callBack_registrationInstruments.returnTOLoginInfo();
                 break;
         }
@@ -143,6 +117,9 @@ public class Fragment_Instruments extends Fragment {
             instrumentsImages(view);
         }
     };
+
+    //check which instrument the user clicked and add it to the instruments arrayList and change to color photo
+    //if the user click again remove from the arrayList and change to black and white photo
     private void instrumentsImages(View view) {
 
         switch ((String)view.getTag()){
@@ -267,5 +244,38 @@ public class Fragment_Instruments extends Fragment {
                 }
                 break;
         }
+    }
+
+    //set background photo
+    private void glideBackground() {
+        Glide
+                .with(this)
+                .load(R.drawable.background_image)
+                .into(Instruments_IMAGE_backGround);
+    }
+
+    private void findView() {
+        //background image
+        Instruments_IMAGE_backGround = view.findViewById(R.id.Instruments_IMAGE_backGround);
+
+        //ImageButton
+        Instruments_IMAGE_electric_guitar = view.findViewById(R.id.Instruments_IMAGE_electric_guitar);
+        Instruments_IMAGE_bass_guitar = view.findViewById(R.id.Instruments_IMAGE_bass_guitar);
+        Instruments_IMAGE_drums = view.findViewById(R.id.Instruments_IMAGE_drums);
+        Instruments_IMAGE_keyboard = view.findViewById(R.id.Instruments_IMAGE_keyboard);
+        Instruments_IMAGE_singer = view.findViewById(R.id.Instruments_IMAGE_singer);
+        Instruments_IMAGE_flute = view.findViewById(R.id.Instruments_IMAGE_flute);
+        Instruments_IMAGE_dj = view.findViewById(R.id.Instruments_IMAGE_dj);
+        Instruments_IMAGE_mandolin = view.findViewById(R.id.Instruments_IMAGE_mandolin);
+        Instruments_IMAGE_violin = view.findViewById(R.id.Instruments_IMAGE_violin);
+        Instruments_IMAGE_percussion = view.findViewById(R.id.Instruments_IMAGE_percussion);
+        Instruments_IMAGE_piano = view.findViewById(R.id.Instruments_IMAGE_piano);
+        Instruments_IMAGE_saxophone = view.findViewById(R.id.Instruments_IMAGE_saxophone);
+
+        //navigation images
+        Instruments_IMAGE_rightArrow = view.findViewById(R.id.Instruments_IMAGE_rightArrow);
+        Instruments_IMAGE_leftArrow = view.findViewById(R.id.Instruments_IMAGE_leftArrow);
+
+        Instruments_TF_other = view.findViewById(R.id.Instruments_TF_other);
     }
 }

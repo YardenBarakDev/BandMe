@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class BandMeProfile {
 
+    private String uid = "";
+    private String imageUrl= "";
     private String firstName = "";
     private String lastName = "";
     private String selfInfo = "";
@@ -15,7 +17,9 @@ public class BandMeProfile {
         this.instruments = new ArrayList<>();
     }
 
-    public BandMeProfile(String firstName, String lastName, String selfInfo, String age, String district, ArrayList<String> instruments) {
+    public BandMeProfile(String uid, String imageUrl, String firstName, String lastName, String selfInfo, String age, String district, ArrayList<String> instruments) {
+        this.uid = uid;
+        this.imageUrl = imageUrl;
         this.firstName = firstName;
         this.lastName = lastName;
         this.selfInfo = selfInfo;
@@ -75,6 +79,24 @@ public class BandMeProfile {
 
     public BandMeProfile setInstruments(ArrayList<String> instruments) {
         this.instruments = instruments;
+        return this;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public BandMeProfile setUid(String uid) {
+        this.uid = uid;
+        return this;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public BandMeProfile setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 }

@@ -2,12 +2,9 @@ package com.bawp.bandme.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import com.bawp.bandme.R;
 import com.bawp.bandme.fragments.Fragment_SearchMusicians;
 import com.bawp.bandme.fragments.Fragment_UserProfile;

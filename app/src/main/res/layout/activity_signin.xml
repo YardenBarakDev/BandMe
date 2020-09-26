@@ -31,7 +31,6 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="25dp"
         android:layout_marginStart="25dp"
-        style="@style/TextDesign"
         app:startIconContentDescription="@string/SignIn_ET_email"
         app:errorEnabled="true"
         app:startIconDrawable="@drawable/email"
@@ -86,7 +85,7 @@
     android:focusable="true" />
 
     <TextView
-        android:id="@+id/SignIn_ET_errorText"
+        android:id="@+id/SignIn_LBL_errorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"

@@ -34,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            style="@style/TextDesign"
             app:startIconContentDescription="@string/Register_ET_email"
             app:errorEnabled="true"
             app:startIconDrawable="@drawable/email"

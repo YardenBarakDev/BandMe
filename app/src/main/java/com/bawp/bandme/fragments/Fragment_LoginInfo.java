@@ -8,27 +8,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import com.bawp.bandme.call_back_interface.CallBack_FireBaseEmailChecker;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationLoginInfo;
 import com.bawp.bandme.R;
 import com.bawp.bandme.util.FireBaseMethods;
 import com.bawp.bandme.util.ValidateUserAccountInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
-
 import java.util.Objects;
-
 
 public class Fragment_LoginInfo extends Fragment {
 
     protected View view;
     private CallBack_RegistrationLoginInfo callBack_registrationLoginInfo;
-
     private TextInputLayout LoginInfo_TF_email;
     private TextInputLayout LoginInfo_TF_password;
     private TextInputLayout LoginInfo_TF_validate_password;
     private ImageView LoginInfo_IMAGE_rightArrow;
     private ImageView LoginInfo_IMAGE_backGround;
 
+    //init util ValidateUserAccountInfo to check input
+    ValidateUserAccountInfo validateUserAccountInfo;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if (view == null){
@@ -36,7 +36,15 @@ public class Fragment_LoginInfo extends Fragment {
         }
         findViews();
         glideBackground();
+
+        //init util to check user input
+        validateUserAccountInfo = new ValidateUserAccountInfo();
+
+        //set listener to Image
         LoginInfo_IMAGE_rightArrow.setOnClickListener(onClickListener);
+
+        //set firebase callback
+        FireBaseMethods.getInstance().setCallBack_fireBaseEmailChecker(callBack_fireBaseEmailChecker);
         return view;
     }
 
@@ -67,35 +75,37 @@ public class Fragment_LoginInfo extends Fragment {
         @Override
         public void onClick(View view) {
 
-            if (validateInfo()){
-                callBack_registrationLoginInfo.advanceLoginInfoStep(
-                        LoginInfo_TF_email.getEditText().getText().toString().trim(),
-                        LoginInfo_TF_password.getEditText().getText().toString().trim(),
-                        LoginInfo_TF_validate_password.getEditText().getText().toString().trim());
+            checkPassword();
+            checkMatchedPasswords();
+
+            if (checkEmail()){
+                FireBaseMethods.getInstance().checkIfEmailExist(LoginInfo_TF_email.getEditText().getText().toString());
             }
         }
     };
 
     private boolean validateInfo() {
         //check the strings are not null
-        if (LoginInfo_TF_email.getEditText().getText() != null &&
-                LoginInfo_TF_password.getEditText().getText() != null &&
+        if (LoginInfo_TF_password.getEditText().getText() != null &&
                 LoginInfo_TF_validate_password.getEditText().getText() != null) {
 
-            boolean validateEmail = checkEmail();
             boolean validatePassword = checkPassword();
             boolean validateMatchedPasswords = checkMatchedPasswords();
 
-            return validateEmail && validatePassword && validateMatchedPasswords;
+            return validatePassword && validateMatchedPasswords;
 
         }
         return false;
     }
 
     private boolean checkMatchedPasswords() {
-        ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
-        if (!validateUserAccountInfo.ValidatePasswordMatch(Objects.requireNonNull(LoginInfo_TF_password.getEditText()).getText().toString(),
-                Objects.requireNonNull(LoginInfo_TF_validate_password.getEditText()).getText().toString() )){
+        //check if null
+        if (LoginInfo_TF_password.getEditText().getText() == null && LoginInfo_TF_validate_password.getEditText().getText() == null)
+            return false;
+
+        //check if password and validate password are matched
+        if (!validateUserAccountInfo.ValidatePasswordMatch(LoginInfo_TF_password.getEditText().getText().toString(),
+                LoginInfo_TF_validate_password.getEditText().getText().toString() )){
             LoginInfo_TF_validate_password.setError("Password not matched");
             return false;
         }
@@ -104,10 +114,12 @@ public class Fragment_LoginInfo extends Fragment {
             return true;
         }
     }
+    private boolean checkPassword(){
 
-    public boolean checkPassword(){
-        ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
-        if (!validateUserAccountInfo.ValidatePasswordRequirements(Objects.requireNonNull(LoginInfo_TF_password.getEditText()).getText().toString())){
+        if (LoginInfo_TF_password.getEditText().getText() == null)
+            return false;
+
+        if (!validateUserAccountInfo.ValidatePasswordRequirements(LoginInfo_TF_password.getEditText().getText().toString())){
             LoginInfo_TF_password.setError("Password must have at least 8 characters with at least one Capital letter, at least one lower case letter and at least one number ");
             return false;
         }
@@ -115,10 +127,13 @@ public class Fragment_LoginInfo extends Fragment {
             LoginInfo_TF_password.setError("");
             return true;
         }
-
     }
-     public boolean checkEmail(){
-        ValidateUserAccountInfo validateUserAccountInfo = new ValidateUserAccountInfo();
+     private boolean checkEmail(){
+        //check if not null
+        if (LoginInfo_TF_email.getEditText().getText() == null ){
+            return false;
+        }
+
         //check if the user added email
         if (LoginInfo_TF_email.getEditText().getText().toString().trim().isEmpty()){
             LoginInfo_TF_email.setError("This field is mandatory");
@@ -126,15 +141,39 @@ public class Fragment_LoginInfo extends Fragment {
         }
         //check if the email address has a real structure
         else if (!validateUserAccountInfo.validateEmail(LoginInfo_TF_email.getEditText().getText().toString())){
-            LoginInfo_TF_email.setError("Invalid email");
+            LoginInfo_TF_email.setError("Invalid email format");
             return false;
-        }
-        else if(FireBaseMethods.getInstance().checkIfEmailExist(LoginInfo_TF_email.getEditText().getText().toString())){
-            LoginInfo_TF_email.setError("Email all ready registered");
         }
         else{
             LoginInfo_TF_email.setError("");
         }
         return true;
+    }
+
+    //return the answer if the email is already in use from FireBaseMethods
+    CallBack_FireBaseEmailChecker callBack_fireBaseEmailChecker = new CallBack_FireBaseEmailChecker() {
+
+        @Override
+        public void isEmailExist(boolean exist) {
+            if (!exist) {
+                LoginInfo_TF_email.setError("");
+                nextStep();
+            }
+            else{
+                LoginInfo_TF_email.setError("Email all ready registered");
+                Log.d("jjjj", "isEmailExist: false");
+            }
+        }
+    };
+
+    //check if the password and the password validation
+    //if they are fine move to the next register page
+    private void nextStep(){
+        if (validateInfo()){
+            callBack_registrationLoginInfo.advanceLoginInfoStep(
+                    LoginInfo_TF_email.getEditText().getText().toString().trim(),
+                    LoginInfo_TF_password.getEditText().getText().toString().trim(),
+                    LoginInfo_TF_validate_password.getEditText().getText().toString().trim());
+        }
     }
 }

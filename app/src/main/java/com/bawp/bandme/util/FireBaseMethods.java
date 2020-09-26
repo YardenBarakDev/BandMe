@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import com.bawp.bandme.call_back_interface.CallBack_FireBaseEmailChecker;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.call_back_interface.CallBack_FireBaseDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,29 +22,31 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-
 public class FireBaseMethods {
 
     public interface KEYS{
-        //data base branch for users
+        //database branch for users
         String USER = "User";
-        String PROFILE_PICTURE = "ProfileImages";
+        String PROFILE_PICTURE_STORAGE = "ProfileImages";
+        String PROFILE_PICTURE_REAL_TIME = "imageUrl";
     }
     private static FireBaseMethods instance;
     private FirebaseAuth mAuth;
-    private boolean isExist = false;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private FirebaseStorage storage;
     private StorageReference storageRef;
+
+    //callbacks
     private CallBack_FireBaseDatabase callBack_fireBaseDatabase;
+    private CallBack_FireBaseEmailChecker callBack_fireBaseEmailChecker;
 
     public FireBaseMethods() {
         this.mAuth = FirebaseAuth.getInstance();
         this.database = FirebaseDatabase.getInstance();
         this.myRef = database.getReference(KEYS.USER);
         this.storage = FirebaseStorage.getInstance();
-        this.storageRef = storage.getReference(KEYS.PROFILE_PICTURE);
+        this.storageRef = storage.getReference(KEYS.PROFILE_PICTURE_STORAGE);
     }
 
     public static FireBaseMethods getInstance(){
@@ -58,13 +61,11 @@ public class FireBaseMethods {
         return instance;
     }
 
-    public void setActivityCallBack(CallBack_FireBaseDatabase callBack_fireBaseDatabase){
-        this.callBack_fireBaseDatabase = callBack_fireBaseDatabase;
-    }
-
-
     //Firebase Authentication
-     public boolean checkIfEmailExist(String email){
+
+    //check if the email is already in use
+    //using it in the registration process
+     public void checkIfEmailExist(String email){
 
         mAuth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>()
         {
@@ -73,21 +74,25 @@ public class FireBaseMethods {
                 if (task.getResult().getSignInMethods() != null){
                     if (task.getResult().getSignInMethods().size() == 0){
                         // email not existed
-                        Log.d("jjjj", "onComplete: Not");
-                        isExist = false;
+                        Log.d("jjjj", "checkIfEmailExist: Not");
+                        //return false, the registration can continue
+                        callBack_fireBaseEmailChecker.isEmailExist(false);
                     }else {
                         //email exist
-                        Log.d("jjjj", "onComplete: yes");
-                        isExist = true;
+                        Log.d("jjjj", "checkIfEmailExist: yes");
+                        //return true it means the email exist, so the user will have
+                        //to use a different email
+                        callBack_fireBaseEmailChecker.isEmailExist(true);
                     }
                 }
             }
         });
-        return isExist;
     }
 
     //Firebase Authentication
-    public void createNewAccount(Activity activity, String email, String password){
+
+    //create new user under Users/UID
+    public void createNewAccount(Activity activity, String email, String password, final BandMeProfile bandMeProfile){
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
@@ -96,7 +101,10 @@ public class FireBaseMethods {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("jjjj", "createUserWithEmail:success");
-                            callBack_fireBaseDatabase.finishedAccountCreation();
+                            String uid = mAuth.getUid();
+
+                            //add user info to real time database
+                            addUserClassInfo(bandMeProfile, uid);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("jjjj", "createUserWithEmail:failure", task.getException());
@@ -107,8 +115,11 @@ public class FireBaseMethods {
                 });
     }
 
-    public void addUserClassInfo(BandMeProfile bandMeProfile){
-        myRef.child(mAuth.getCurrentUser().getUid()).setValue(bandMeProfile);
+    //add user info under User/UID
+    public void addUserClassInfo(BandMeProfile bandMeProfile,String uid){
+        bandMeProfile.setUid(uid);
+        myRef.child(uid).setValue(bandMeProfile);
+        callBack_fireBaseDatabase.finishedAccountCreation();
     }
 
     //send password reset to email
@@ -116,11 +127,14 @@ public class FireBaseMethods {
         mAuth.sendPasswordResetEmail(email);
     }
 
-    public void uploadProfilePicture(Uri uri, Activity activity){
 
-        StorageReference riversRef = storageRef.child(mAuth.getCurrentUser().getUid());
+    //upload the profile picture under ProfileImages/UID
+    public void uploadProfilePicture(final Uri uri, Activity activity){
+
+        final StorageReference riversRef = storageRef.child(mAuth.getCurrentUser().getUid());
         UploadTask uploadTask = riversRef.putFile(uri);
 
+        //create dialog that show the percentage of the download
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setTitle("Uploading Image...");
         progressDialog.show();
@@ -130,16 +144,29 @@ public class FireBaseMethods {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 progressDialog.dismiss();
-                // Handle unsuccessful uploads
+
+
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            //add the image link to his info in the database to later upload it for profile picture
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 progressDialog.dismiss();
+                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        Log.d("jjjj", "" + uri.toString());
+                        //update the url in the user info Users/UID/imageUrl
+                        myRef.child(mAuth.getCurrentUser().getUid()).child(KEYS.PROFILE_PICTURE_REAL_TIME).setValue(uri.toString());
+                    }
+                });
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                //calculate percentage ((100*bytes transferred)/ total bytes)
                 long progressPercent = (100 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
                 progressDialog.setMessage("Percentage: " + (int)progressPercent + "%");
             }
@@ -182,6 +209,26 @@ public class FireBaseMethods {
 
     public FireBaseMethods setStorageRef(StorageReference storageRef) {
         this.storageRef = storageRef;
+        return this;
+    }
+
+
+    //callbacks getter and setters
+    public CallBack_FireBaseDatabase getCallBack_fireBaseDatabase() {
+        return callBack_fireBaseDatabase;
+    }
+
+    public FireBaseMethods setCallBack_fireBaseDatabase(CallBack_FireBaseDatabase callBack_fireBaseDatabase) {
+        this.callBack_fireBaseDatabase = callBack_fireBaseDatabase;
+        return this;
+    }
+
+    public CallBack_FireBaseEmailChecker getCallBack_fireBaseEmailChecker() {
+        return callBack_fireBaseEmailChecker;
+    }
+
+    public FireBaseMethods setCallBack_fireBaseEmailChecker(CallBack_FireBaseEmailChecker callBack_fireBaseEmailChecker) {
+        this.callBack_fireBaseEmailChecker = callBack_fireBaseEmailChecker;
         return this;
     }
 }
