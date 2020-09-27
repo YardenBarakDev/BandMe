@@ -1,15 +1,13 @@
 package com.bawp.bandme;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bawp.bandme.model.BandMeProfile;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import java.util.ArrayList;
@@ -20,12 +18,17 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private ArrayList<BandMeProfile> bandMeProfiles = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context context;
+    private ProfileListClickListener profileListClickListener;
 
     // data is passed into the constructor
     public MyRecyclerViewAdapter(Context context, ArrayList<BandMeProfile> data) {
         this.mInflater = LayoutInflater.from(context);
         this.bandMeProfiles = data;
         this.context = context;
+    }
+
+    public void setClickListener(ProfileListClickListener profileListClickListener){
+        this.profileListClickListener = profileListClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -86,6 +89,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             List_LBL_lastName = view.findViewById(R.id.List_LBL_lastName);
             List_IMAGE_profilePicture = view.findViewById(R.id.List_IMAGE_profilePicture);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (profileListClickListener != null)
+                        profileListClickListener.getProfile(getItem(getAdapterPosition()));
+                }
+            });
         }
     }
+
+    public interface ProfileListClickListener {
+        void getProfile(BandMeProfile bandMeProfile);
+    }
+
 }

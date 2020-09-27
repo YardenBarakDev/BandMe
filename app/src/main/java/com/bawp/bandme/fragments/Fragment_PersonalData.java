@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.fragment.app.Fragment;
 import com.bawp.bandme.R;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationPersonalData;
@@ -13,10 +15,7 @@ import com.bawp.bandme.util.ValidateUserAccountInfo;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
-
 import java.util.Objects;
-
-import fr.ganfra.materialspinner.MaterialSpinner;
 
 public class Fragment_PersonalData extends Fragment {
 
@@ -27,14 +26,16 @@ public class Fragment_PersonalData extends Fragment {
     private TextInputLayout PersonalData_TF_lastName;
     private TextInputLayout PersonalData_TF_age;
     private TextInputLayout PersonalData_TF_info;
+    private TextInputLayout PersonalData_LAY_district;
     private MaterialButton PersonalData_BTN_Login;
     private ImageView PersonalData_IMAGE_leftArrow;
     private ImageView PersonalData_IMAGE_backGround;
-    private MaterialSpinner PersonalData_Spinner_district;
+    private AppCompatAutoCompleteTextView PersonalData_Spinner_district;
 
     //init util to check user input
     private ValidateUserAccountInfo validateUserAccountInfo;
-
+    private String[] districts = {"Jerusalem District", "Northern District", "Haifa District", "Central District", "Tel Aviv District",
+    "Southern District", "Judea and Samaria Area", "Eilat"};
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if (view == null){
@@ -43,11 +44,13 @@ public class Fragment_PersonalData extends Fragment {
         //init util to check user input
         validateUserAccountInfo = new ValidateUserAccountInfo();
         findViews();
+        setSpinner();
         glideBackground();
         setListeners();
 
         return view;
     }
+
 
     private void setListeners() {
         PersonalData_IMAGE_leftArrow.setOnClickListener(personalDataListener);
@@ -82,9 +85,10 @@ public class Fragment_PersonalData extends Fragment {
                                 PersonalData_TF_lastName.getEditText()).getText().toString().trim(),
                         Objects.requireNonNull(
                                 PersonalData_TF_age.getEditText()).getText().toString().trim(),
-                        Objects.requireNonNull(
-                                PersonalData_TF_info.getEditText()).getText().toString().trim(),
-                        PersonalData_Spinner_district.getSelectedItem().toString());
+                                Objects.requireNonNull(
+                                        PersonalData_TF_info.getEditText()).getText().toString().trim(),
+
+                                PersonalData_Spinner_district.getText().toString().trim());
                 break;
             case "PersonalData_IMAGE_leftArrow":
                 //return to the previous registration page
@@ -155,15 +159,21 @@ public class Fragment_PersonalData extends Fragment {
     }
 
     private boolean validDistrict() {
-        if (PersonalData_Spinner_district.getSelectedItemPosition() == -1){
-            PersonalData_Spinner_district.setError("Please choose district");
+        if (PersonalData_Spinner_district.getText().toString().equals("District")){
+            PersonalData_LAY_district.setError("Mandatory field");
             return false;
         }
-        else{
-            PersonalData_Spinner_district.setError("");
-            PersonalData_Spinner_district.setErrorColor(PersonalData_Spinner_district.getBaseColor());
-            return true;
+        if (PersonalData_Spinner_district.getText().toString().isEmpty()){
+            PersonalData_LAY_district.setError("Mandatory field");
+            return false;
         }
+        PersonalData_LAY_district.setError("");
+        return true;
+    }
+
+    private void setSpinner() {
+        if (getActivity() != null)
+            PersonalData_Spinner_district.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_layout, districts));
     }
 
     private void glideBackground() {
@@ -180,6 +190,7 @@ public class Fragment_PersonalData extends Fragment {
         PersonalData_TF_lastName = view.findViewById(R.id.PersonalData_TF_lastName);
         PersonalData_TF_age = view.findViewById(R.id.PersonalData_TF_age);
         PersonalData_TF_info = view.findViewById(R.id.PersonalData_TF_info);
+        PersonalData_LAY_district = view.findViewById(R.id.PersonalData_LAY_district);
         //button
         PersonalData_BTN_Login = view.findViewById(R.id.PersonalData_BTN_Login);
         //images

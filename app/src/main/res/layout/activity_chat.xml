@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Activity_Chat"
+    android:orientation="vertical"
+    >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+
+        >
+
+        <ImageView
+            android:id="@+id/Chat_IMAGE_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/profile"
+            android:contentDescription="@string/Chat_profileImage" />
+
+        <TextView
+            android:id="@+id/Chat_LBL_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            />
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Chat_RecyclerView_messages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_above="@+id/bottom"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:padding="5dp"
+        android:id="@+id/bottom"
+        android:background="@color/primary"
+        android:layout_alignParentBottom="true"
+        >
+
+        <EditText
+            android:id="@+id/Chat_LBL_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/primary_dark"
+            android:layout_centerVertical="true"
+            android:inputType="none"
+            tools:ignore="LabelFor"
+            android:autofillHints="" />
+
+        <ImageButton
+            android:id="@+id/Chat_BTN_send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/send_message"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/Chat_BTN_send" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

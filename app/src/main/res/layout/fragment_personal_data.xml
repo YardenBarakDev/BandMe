@@ -21,14 +21,27 @@
         android:layout_margin="10dp"
         >
 
-        <fr.ganfra.materialspinner.MaterialSpinner
-            android:id="@+id/PersonalData_Spinner_district"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PersonalData_LAY_district"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ms_floatingLabelText="District"
-            app:ms_hint="District"
-            app:ms_enableErrorLabel="true"
-            android:entries="@array/Register_Spinner_IsraelDistricts"/>
+            android:hint="@string/UserProfile_LBL_district"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/location"
+            >
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/PersonalData_Spinner_district"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:inputType="none"
+                android:textColor="@color/primary_text"
+                android:maxLines="1"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout

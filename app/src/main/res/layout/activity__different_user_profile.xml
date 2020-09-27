@@ -5,30 +5,30 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.Fragment_UserProfile">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:liftOnScroll="true"
-            >
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="?attr/actionBarSize"
+           android:background="@color/primary"
+           >
+           <ImageView
+               android:id="@+id/OtherUserProfile_IMAGE_sendMessage"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/message_icon"
+               android:layout_margin="5dp"
+               android:layout_alignParentEnd="true"
+               />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/UserProfile_Toolbar"
-                android:layout_width="match_parent"
-                app:title=""
-                app:subtitle=""
-                android:layout_height="?attr/actionBarSize"
+       </RelativeLayout>
 
-                />
-
-        </com.google.android.material.appbar.AppBarLayout>
         <ImageView
-            android:id="@+id/UserProfile_IMAGE_background"
+            android:id="@+id/OtherUserProfile_IMAGE_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/UserProfile_IMAGE_profilePicture"
+                    android:id="@+id/OtherUserProfile_IMAGE_profilePicture"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:scaleType="fitXY"
@@ -80,7 +80,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/UserProfile_LBL_firstName"
+                    android:id="@+id/OtherUserProfile_LBL_firstName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -106,7 +106,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/UserProfile_LBL_lastName"
+                    android:id="@+id/OtherUserProfile_LBL_lastName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -133,7 +133,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/UserProfile_LBL_age"
+                    android:id="@+id/OtherUserProfile_LBL_age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -159,7 +159,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/UserProfile_LBL_district"
+                    android:id="@+id/OtherUserProfile_LBL_district"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -185,7 +185,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/UserProfile_LBL_instruments"
+                    android:id="@+id/OtherUserProfile_LBL_instruments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
@@ -211,7 +211,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/UserProfile_LBL_info"
+                    android:id="@+id/OtherUserProfile_LBL_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cherry_cream_soda"

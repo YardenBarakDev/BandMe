@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <item android:title="Update profile" />
+
+    <item
+        android:id="@+id/UserProfile_Toolbar_SignOut"
+        android:title="@string/UserProfile_Toolbar_SignOut"
+        />
+
+</menu>

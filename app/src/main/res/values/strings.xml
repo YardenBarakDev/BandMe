@@ -24,18 +24,6 @@
     <string name="Register_IBTN_percussion">percussion</string>
     <string name="Register_ET_info">Tell us about yourself</string>
 
-
-    <string-array name="Register_Spinner_IsraelDistricts">
-        <item>Jerusalem District</item>
-        <item>Northern District</item>
-        <item>Haifa District</item>
-        <item>Central District</item>
-        <item>Tel Aviv District</item>
-        <item>Southern District</item>
-        <item>Judea and Samaria Area</item>
-        <item>Eilat</item>
-    </string-array>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Register_LBL_back">Back</string>
     <string name="Register_LBL_next">Next</string>
@@ -58,10 +46,13 @@
     <string name="UserProfile_menu_symbol">menu symbol</string>
     <string name="UserProfile_LBL_firstName">First name: </string>
     <string name="UserProfile_LBL_lastName">Last name:</string>
-    <string name="UserProfile_LBL_instruments">Isntruments:</string>
+    <string name="UserProfile_LBL_instruments">Instruments:</string>
     <string name="UserProfile_LBL_age">Age:</string>
     <string name="UserProfile_LBL_info">info:</string>
     <string name="UserProfile_LBL_district">District</string>
     <string name="Instruments_TF_other">Other</string>
+    <string name="UserProfile_Toolbar_SignOut">Sign out</string>
+    <string name="Chat_BTN_send">Send button</string>
+    <string name="Chat_profileImage">Profile image</string>
 
 </resources>

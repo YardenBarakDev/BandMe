@@ -1,5 +1,6 @@
 package com.bawp.bandme.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,27 +8,32 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bawp.bandme.Activities.Activity_DifferentUserProfile;
+import com.bawp.bandme.Activities.Activity_Main;
+import com.bawp.bandme.Activities.Activity_SignIn;
 import com.bawp.bandme.MyRecyclerViewAdapter;
 import com.bawp.bandme.R;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.util.FireBaseMethods;
+import com.bawp.bandme.util.MySP;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Fragment_SearchMusicians extends Fragment {
 
     protected View view;
     private RecyclerView SearchMusicians_LST_musicians;
-    private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private ArrayList<BandMeProfile> bandMeProfiles;
-
+    private MyRecyclerViewAdapter myRecyclerViewAdapter;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if (view == null){
@@ -44,8 +50,7 @@ public class Fragment_SearchMusicians extends Fragment {
 
     private void setRecyclerViewAdapter() {
         myRecyclerViewAdapter = new MyRecyclerViewAdapter(getActivity(), bandMeProfiles);
-
-
+        myRecyclerViewAdapter.setClickListener(profileListClickListener);
         SearchMusicians_LST_musicians.setLayoutManager(new LinearLayoutManager(getActivity()));
         SearchMusicians_LST_musicians.setAdapter(myRecyclerViewAdapter);
     }
@@ -58,11 +63,6 @@ public class Fragment_SearchMusicians extends Fragment {
         return new Fragment_SearchMusicians();
     }
 
-    /*
-    public void setActivityCallBack(CallBack_RegistrationLoginInfo callBack_registrationLoginInfo){
-        this.callBack_registrationLoginInfo = callBack_registrationLoginInfo;
-    }
-     */
 
     private void getAllUsersFromFireBase() {
 
@@ -72,8 +72,12 @@ public class Fragment_SearchMusicians extends Fragment {
                 bandMeProfiles.clear();
                 for (DataSnapshot ds : snapshot.getChildren()){
                     BandMeProfile profile = ds.getValue(BandMeProfile.class);
-                    //add after checking && profile.getUid() != FireBaseMethods.getInstance().getmAuth().getUid()
-                    if (profile != null ){
+
+                    //make sure the current user won't be in the search list
+                    if (profile != null && !profile.getUid().equals(
+                            Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getCurrentUser()).getUid())){
+
+                        //add user to array
                         bandMeProfiles.add(profile);
                     }
                 }
@@ -87,4 +91,15 @@ public class Fragment_SearchMusicians extends Fragment {
             }
         });
     }
+
+    MyRecyclerViewAdapter.ProfileListClickListener profileListClickListener= new MyRecyclerViewAdapter.ProfileListClickListener() {
+        @Override
+        public void getProfile(BandMeProfile bandMeProfile) {
+            Intent intent = new Intent(getActivity(), Activity_DifferentUserProfile.class);
+            intent.putExtra(MySP.KEYS.BAND_ME_PROFILE, bandMeProfile);
+            startActivity(intent);
+        }
+    };
+
+
 }

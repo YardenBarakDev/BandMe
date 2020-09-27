@@ -1,8 +1,9 @@
 package com.bawp.bandme.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BandMeProfile {
+public class BandMeProfile implements Serializable {
 
     private String uid = "";
     private String imageUrl= "";

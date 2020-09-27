@@ -11,13 +11,14 @@ public class MySP {
         String DJ = "DJ";
         String DRUMS = "Drums";
         String KEYBOARD = "Keyboard";
-        String MICROPHONE = "Singer";
+        String MICROPHONE = "Vocalist";
         String FLUTE = "Flute";
         String MANDOLIN = "Mandolin";
         String VIOLIN = "Violin";
         String PERCUSSION = "Percussion";
         String PIANO = "Piano";
         String SAXOPHONE = "Saxophone";
+        String BAND_ME_PROFILE = "BandMeProfile";
     }
 
     private static MySP instance;

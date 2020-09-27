@@ -18,7 +18,6 @@
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/Register_Spinner_IsraelDistricts"
             />
     </LinearLayout>
 
@@ -34,7 +33,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/SearchMusicians_LST_musicians"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
