@@ -1,19 +1,25 @@
 package com.bawp.bandme.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bawp.bandme.R;
 import com.bawp.bandme.model.BandMeProfile;
+import com.bawp.bandme.util.FireBaseMethods;
 import com.bawp.bandme.util.MySP;
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class Activity_DifferentUserProfile extends AppCompatActivity {
 
@@ -54,6 +60,12 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
     };
 
     private void moveToChat() {
+
+        //get unique key for the chat
+        String chatKey = FirebaseDatabase.getInstance().getReference().child(FireBaseMethods.KEYS.CHAT).getKey();
+       // FirebaseDatabase.getInstance().getReference().child(FireBaseMethods.KEYS.CHAT).child(chatKey).setValue()
+
+        //move to chat activity
         Intent intent = new Intent(Activity_DifferentUserProfile.this , Activity_Chat.class);
         intent.putExtra(MySP.KEYS.BAND_ME_PROFILE, bandMeProfile);
         startActivity(intent);
@@ -106,6 +118,28 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         OtherUserProfile_LBL_instruments = findViewById(R.id.OtherUserProfile_LBL_instruments);
         OtherUserProfile_LBL_age = findViewById(R.id.OtherUserProfile_LBL_age);
         OtherUserProfile_LBL_info = findViewById(R.id.OtherUserProfile_LBL_info);
+
+    }
+
+    private void checkIfHasConversation(){
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                .child(FireBaseMethods.KEYS.CHAT);
+
+        FireBaseMethods.getInstance().getMyRef().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()){
+                    BandMeProfile profile = ds.getValue(BandMeProfile.class);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 }

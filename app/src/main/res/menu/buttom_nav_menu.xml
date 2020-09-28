@@ -14,5 +14,9 @@
         android:icon="@drawable/nav_profile"
         />
 
-
+    <item
+        android:id="@+id/NAV_chat"
+        android:title="Chat"
+        android:icon="@drawable/chat_icon"
+        />
 </menu>

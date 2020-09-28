@@ -51,6 +51,7 @@ public class Fragment_UserProfile extends Fragment {
     private Toolbar UserProfile_Toolbar;
     private final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private final int REQUEST_CODE_SELECT_IMAGE = 1;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         if (view == null){

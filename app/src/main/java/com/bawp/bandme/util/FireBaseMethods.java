@@ -29,6 +29,8 @@ public class FireBaseMethods {
         String USER = "User";
         String PROFILE_PICTURE_STORAGE = "ProfileImages";
         String PROFILE_PICTURE_REAL_TIME = "imageUrl";
+        String CHAT = "chat";
+        String CHATID = "chatID";
     }
     private static FireBaseMethods instance;
     private FirebaseAuth mAuth;

@@ -19,6 +19,12 @@ public class MySP {
         String PIANO = "Piano";
         String SAXOPHONE = "Saxophone";
         String BAND_ME_PROFILE = "BandMeProfile";
+
+        //Chat related
+        String CHAT = "Chats";
+        String SENDER = "sender";
+        String RECEIVER = "receiver";
+        String MESSAGE = "message";
     }
 
     private static MySP instance;
