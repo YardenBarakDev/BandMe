@@ -29,4 +29,8 @@ public class Fragment_ChatList extends Fragment {
     public static Fragment_ChatList newInstance(){
         return new Fragment_ChatList();
     }
+
+
+
+
 }

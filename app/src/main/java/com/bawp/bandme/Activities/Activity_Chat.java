@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.bawp.bandme.R;
 import com.bawp.bandme.adapters.MyChatAdapter;
@@ -28,7 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,7 +45,7 @@ public class Activity_Chat extends AppCompatActivity {
     //firebase
     private FirebaseUser firebaseUser;
     DatabaseReference databaseReference;
-
+    private String chatKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,17 +59,24 @@ public class Activity_Chat extends AppCompatActivity {
         if (bandMeProfile!= null){
             showUserDetails(bandMeProfile);
         }
+        //get conversation key
+        chatKey = getIntent().getStringExtra(FireBaseMethods.KEYS.KEY);
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        messageListener();
+        readMessages();
+        //messageListener();
         //button listener
         Chat_BTN_send.setOnClickListener(ChatOnClickListener);
 
     }
 
+    /*
     private void messageListener() {
         //messages listener
-        databaseReference = FirebaseDatabase.getInstance().getReference(FireBaseMethods.KEYS.USER).child(FireBaseMethods.getInstance().getmAuth().getCurrentUser().getUid());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().
+                getReference(FireBaseMethods.KEYS.CHAT).
+                child(chatKey);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -86,12 +91,15 @@ public class Activity_Chat extends AppCompatActivity {
         });
     }
 
-
+*/
     private void readMessages(){
 
         chatsList = new ArrayList<>();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child(FireBaseMethods.KEYS.CHAT);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().
+                getReference(FireBaseMethods.KEYS.CHAT).
+                child(chatKey);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -99,17 +107,21 @@ public class Activity_Chat extends AppCompatActivity {
                 for (DataSnapshot ds : snapshot.getChildren()){
                     Chat chat = ds.getValue(Chat.class);
 
-                    if (chat.getReceiver().equals(bandMeProfile.getUid()) && chat.getSender().equals(firebaseUser.getUid())
-                    || chat.getReceiver().equals(firebaseUser.getUid()) && chat.getSender().equals(bandMeProfile.getUid())){
+                    if (chat != null){
                         chatsList.add(chat);
                     }
-                    MyChatAdapter myChatAdapter = new MyChatAdapter(Activity_Chat.this, chatsList);
-                    Chat_RecyclerView_messages.setAdapter(myChatAdapter);
+                }
+                MyChatAdapter myChatAdapter = new MyChatAdapter(Activity_Chat.this, chatsList);
+                Chat_RecyclerView_messages.setAdapter(myChatAdapter);
+
+                //scroll down automatically whenever a new message is send
+                if (chatsList.size() >= 1){
+                    Chat_RecyclerView_messages.smoothScrollToPosition(chatsList.size());
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error){
 
             }
         });
@@ -130,14 +142,17 @@ public class Activity_Chat extends AppCompatActivity {
     };
 
     private void sendMessage(String sender, String receiver, String message) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().
+                getReference(FireBaseMethods.KEYS.CHAT).
+                child(chatKey);
+        Log.d("jjjj", "key" + chatKey);
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(MySP.KEYS.SENDER, sender);
         hashMap.put(MySP.KEYS.RECEIVER, receiver);
         hashMap.put(MySP.KEYS.MESSAGE, message);
 
-        databaseReference.child(FireBaseMethods.KEYS.CHAT).push().setValue(hashMap);
+        databaseReference.push().setValue(hashMap);
     }
 
 
