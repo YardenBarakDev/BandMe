@@ -38,7 +38,6 @@
                 android:inputType="none"
                 android:textColor="@color/primary_text"
                 android:maxLines="1"
-
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -55,6 +54,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PersonalData_LBL_firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/PersonalData_TF_firstName"
@@ -76,6 +76,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PersonalData_LBL_lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
@@ -96,6 +97,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PersonalData_LBL_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -105,11 +107,6 @@
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -122,6 +119,7 @@
             >
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PersonalData_LBL_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/LoginInfo_TF_info"

@@ -55,4 +55,13 @@
     <string name="Chat_BTN_send">Send button</string>
     <string name="Chat_profileImage">Profile image</string>
 
+    <string-array name="temp">
+        <item> aaa</item>
+        <item> bbb</item>
+        <item> ccc</item>
+        <item> ddd</item>
+        <item> eee</item>
+        <item> fff</item>
+
+    </string-array>
 </resources>

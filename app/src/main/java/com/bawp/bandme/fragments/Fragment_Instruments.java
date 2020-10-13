@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.bawp.bandme.call_back_interface.CallBack_RegistrationInstruments;
 import com.bawp.bandme.R;
-import com.bawp.bandme.util.MySP;
+import com.bawp.bandme.util.MyUtil;
 import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -124,123 +124,123 @@ public class Fragment_Instruments extends Fragment {
 
         switch ((String)view.getTag()){
             case "Instruments_IMAGE_electric_guitar":
-                if (instruments.contains(MySP.KEYS.ELECTRIC_GUITAR)) {
+                if (instruments.contains(MyUtil.KEYS.ELECTRIC_GUITAR)) {
                     Instruments_IMAGE_electric_guitar.setImageResource(R.drawable.electric_guitar);
-                    instruments.remove(MySP.KEYS.ELECTRIC_GUITAR);
+                    instruments.remove(MyUtil.KEYS.ELECTRIC_GUITAR);
                 }
                 else{
                     Instruments_IMAGE_electric_guitar.setImageResource(R.drawable.electric_guitar_chose);
-                    instruments.add(MySP.KEYS.ELECTRIC_GUITAR);
+                    instruments.add(MyUtil.KEYS.ELECTRIC_GUITAR);
                 }
                 break;
             case "Instruments_IMAGE_bass_guitar":
-                if (instruments.contains(MySP.KEYS.BASS_GUITAR)) {
+                if (instruments.contains(MyUtil.KEYS.BASS_GUITAR)) {
                     Instruments_IMAGE_bass_guitar.setImageResource(R.drawable.bass_guitar);
-                    instruments.remove(MySP.KEYS.BASS_GUITAR);
+                    instruments.remove(MyUtil.KEYS.BASS_GUITAR);
                 }
                 else{
                     Instruments_IMAGE_bass_guitar.setImageResource(R.drawable.bass_guitar_chose);
-                    instruments.add(MySP.KEYS.BASS_GUITAR);
+                    instruments.add(MyUtil.KEYS.BASS_GUITAR);
                 }
                 break;
             case "Instruments_IMAGE_drums":
-                if (instruments.contains(MySP.KEYS.DRUMS)) {
+                if (instruments.contains(MyUtil.KEYS.DRUMS)) {
                     Instruments_IMAGE_drums.setImageResource(R.drawable.drums);
-                    instruments.remove(MySP.KEYS.DRUMS);
+                    instruments.remove(MyUtil.KEYS.DRUMS);
                 }
                 else{
                     Instruments_IMAGE_drums.setImageResource(R.drawable.drums_chose);
-                    instruments.add(MySP.KEYS.DRUMS);
+                    instruments.add(MyUtil.KEYS.DRUMS);
                 }
                 break;
             case "Instruments_IMAGE_keyboard":
-                if (instruments.contains(MySP.KEYS.KEYBOARD)) {
+                if (instruments.contains(MyUtil.KEYS.KEYBOARD)) {
                     Instruments_IMAGE_keyboard.setImageResource(R.drawable.keyboard);
-                    instruments.remove(MySP.KEYS.KEYBOARD);
+                    instruments.remove(MyUtil.KEYS.KEYBOARD);
                 }
                 else{
                     Instruments_IMAGE_keyboard.setImageResource(R.drawable.keyboard_chose);
-                    instruments.add(MySP.KEYS.KEYBOARD);
+                    instruments.add(MyUtil.KEYS.KEYBOARD);
                 }
                 break;
             case "Instruments_IMAGE_singer":
-                if (instruments.contains(MySP.KEYS.MICROPHONE)) {
+                if (instruments.contains(MyUtil.KEYS.MICROPHONE)) {
                     Instruments_IMAGE_singer.setImageResource(R.drawable.microphone);
-                    instruments.remove(MySP.KEYS.MICROPHONE);
+                    instruments.remove(MyUtil.KEYS.MICROPHONE);
                 }
                 else{
                     Instruments_IMAGE_singer.setImageResource(R.drawable.microphone_chose);
-                    instruments.add(MySP.KEYS.MICROPHONE);
+                    instruments.add(MyUtil.KEYS.MICROPHONE);
                 }
                 break;
             case "Instruments_IMAGE_flute":
-                if (instruments.contains(MySP.KEYS.FLUTE)) {
+                if (instruments.contains(MyUtil.KEYS.FLUTE)) {
                     Instruments_IMAGE_flute.setImageResource(R.drawable.flute);
-                    instruments.remove(MySP.KEYS.FLUTE);
+                    instruments.remove(MyUtil.KEYS.FLUTE);
                 }
                 else{
                     Instruments_IMAGE_flute.setImageResource(R.drawable.flute_chose);
-                    instruments.add(MySP.KEYS.FLUTE);
+                    instruments.add(MyUtil.KEYS.FLUTE);
                 }
                 break;
             case "Instruments_IMAGE_dj":
-                if (instruments.contains(MySP.KEYS.DJ)) {
+                if (instruments.contains(MyUtil.KEYS.DJ)) {
                     Instruments_IMAGE_dj.setImageResource(R.drawable.dj);
-                    instruments.remove(MySP.KEYS.DJ);
+                    instruments.remove(MyUtil.KEYS.DJ);
                 }
                 else{
                     Instruments_IMAGE_dj.setImageResource(R.drawable.dj_chose);
-                    instruments.add(MySP.KEYS.DJ);
+                    instruments.add(MyUtil.KEYS.DJ);
                 }
                 break;
             case "Instruments_IMAGE_mandolin":
-                if (instruments.contains(MySP.KEYS.MANDOLIN)) {
+                if (instruments.contains(MyUtil.KEYS.MANDOLIN)) {
                     Instruments_IMAGE_mandolin.setImageResource(R.drawable.mandolin);
-                    instruments.remove(MySP.KEYS.MANDOLIN);
+                    instruments.remove(MyUtil.KEYS.MANDOLIN);
                 }
                 else{
                     Instruments_IMAGE_mandolin.setImageResource(R.drawable.mandolin_chose);
-                    instruments.add(MySP.KEYS.MANDOLIN);
+                    instruments.add(MyUtil.KEYS.MANDOLIN);
                 }
                 break;
             case "Instruments_IMAGE_violin":
-                if (instruments.contains(MySP.KEYS.VIOLIN)) {
+                if (instruments.contains(MyUtil.KEYS.VIOLIN)) {
                     Instruments_IMAGE_violin.setImageResource(R.drawable.violin);
-                    instruments.remove(MySP.KEYS.VIOLIN);
+                    instruments.remove(MyUtil.KEYS.VIOLIN);
                 }
                 else{
                     Instruments_IMAGE_violin.setImageResource(R.drawable.violin_chose);
-                    instruments.add(MySP.KEYS.VIOLIN);
+                    instruments.add(MyUtil.KEYS.VIOLIN);
                 }
                 break;
             case "Instruments_IMAGE_percussion":
-                if (instruments.contains(MySP.KEYS.PERCUSSION)) {
+                if (instruments.contains(MyUtil.KEYS.PERCUSSION)) {
                     Instruments_IMAGE_percussion.setImageResource(R.drawable.percussion);
-                    instruments.remove(MySP.KEYS.PERCUSSION);
+                    instruments.remove(MyUtil.KEYS.PERCUSSION);
                 }
                 else{
                     Instruments_IMAGE_percussion.setImageResource(R.drawable.percussion_chose);
-                    instruments.add(MySP.KEYS.PERCUSSION);
+                    instruments.add(MyUtil.KEYS.PERCUSSION);
                 }
                 break;
             case "Instruments_IMAGE_piano":
-                if (instruments.contains(MySP.KEYS.PIANO)) {
+                if (instruments.contains(MyUtil.KEYS.PIANO)) {
                     Instruments_IMAGE_piano.setImageResource(R.drawable.piano);
-                    instruments.remove(MySP.KEYS.PIANO);
+                    instruments.remove(MyUtil.KEYS.PIANO);
                 }
                 else{
                     Instruments_IMAGE_piano.setImageResource(R.drawable.piano_chose);
-                    instruments.add(MySP.KEYS.PIANO);
+                    instruments.add(MyUtil.KEYS.PIANO);
                 }
                 break;
             case "Instruments_IMAGE_saxophone":
-                if (instruments.contains(MySP.KEYS.SAXOPHONE)) {
+                if (instruments.contains(MyUtil.KEYS.SAXOPHONE)) {
                     Instruments_IMAGE_saxophone.setImageResource(R.drawable.saxophone);
-                    instruments.remove(MySP.KEYS.SAXOPHONE);
+                    instruments.remove(MyUtil.KEYS.SAXOPHONE);
                 }
                 else{
                     Instruments_IMAGE_saxophone.setImageResource(R.drawable.saxophone_chose);
-                    instruments.add(MySP.KEYS.SAXOPHONE);
+                    instruments.add(MyUtil.KEYS.SAXOPHONE);
                 }
                 break;
         }

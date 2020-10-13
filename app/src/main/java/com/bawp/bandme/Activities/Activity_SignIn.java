@@ -16,14 +16,13 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 
 public class Activity_SignIn extends AppCompatActivity {
 
-    private TextInputLayout SignIn_ET_email;
-    private TextInputLayout SignIn_ET_password;
-
+    private TextInputEditText SignIn_LBL_email;
+    private TextInputEditText SignIn_LBL_password;
     private TextView SignIn_LBL_forgot_password;
     private TextView SignIn_LBL_firstTime_register;
     private TextView SignIn_LBL_errorText;
@@ -69,11 +68,14 @@ public class Activity_SignIn extends AppCompatActivity {
     }
 
     private void checkCredentials() {
-        if (SignIn_ET_email.getEditText().getText() != null && SignIn_ET_password.getEditText().getText() != null){
 
+        if (SignIn_LBL_email.getText() != null && !SignIn_LBL_email.getText().toString().isEmpty() &&
+                SignIn_LBL_password.getText() != null && !SignIn_LBL_password.getText().toString().isEmpty()){
+
+            //validate user input, check if the user exist and if the credentials are valid
             FireBaseMethods.getInstance().getmAuth().signInWithEmailAndPassword(
-                    (SignIn_ET_email.getEditText()).getText().toString(),
-                    (SignIn_ET_password.getEditText()).getText().toString())
+                     SignIn_LBL_email.getText().toString(),
+                     SignIn_LBL_password.getText().toString())
 
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -134,8 +136,9 @@ public class Activity_SignIn extends AppCompatActivity {
 
     private void findViews() {
 
-        SignIn_ET_email = findViewById(R.id.SignIn_ET_email);
-        SignIn_ET_password = findViewById(R.id.SignIn_ET_password);
+        SignIn_LBL_email = findViewById(R.id.SignIn_LBL_email);
+
+        SignIn_LBL_password = findViewById(R.id.SignIn_LBL_password);
 
         SignIn_LBL_forgot_password = findViewById(R.id.SignIn_LBL_forgot_password);
         SignIn_LBL_firstTime_register = findViewById(R.id.SignIn_LBL_firstTime_register);

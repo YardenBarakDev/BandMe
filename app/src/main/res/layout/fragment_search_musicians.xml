@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.Fragment_SearchMusicians">
+
+
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:padding="2dp"
+        android:baselineAligned="false"
+        >
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/UserProfile_LBL_district"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            android:layout_weight="1"
+            android:layout_margin="1dp"
+            >
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/SearchMusicians_LST_musicians_Spinner_district"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:inputType="none"
+                android:textColor="@color/primary_text"
+                android:maxLines="1"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/PersonalData_LAY_district"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="instrument"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+            app:errorEnabled="true"
+            android:layout_margin="1dp"
+            android:layout_weight="1"
+            >
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/SearchMusicians_LST_musicians_Spinner_instruments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:inputType="none"
+                android:textColor="@color/primary_text"
+                android:maxLines="1"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:showDividers="end"
+        app:dividerPadding="5dp"
+        android:layout_below="@+id/search_bar"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/SearchMusicians_LST_musicians"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</RelativeLayout>

@@ -14,16 +14,22 @@ import com.bawp.bandme.R;
 import com.bawp.bandme.util.FireBaseMethods;
 import com.bawp.bandme.util.ValidateUserAccountInfo;
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import java.util.Objects;
 
 public class Fragment_LoginInfo extends Fragment {
 
     protected View view;
     private CallBack_RegistrationLoginInfo callBack_registrationLoginInfo;
     private TextInputLayout LoginInfo_TF_email;
+    private TextInputEditText LoginInfo_LBL_email;
+
     private TextInputLayout LoginInfo_TF_password;
+    private TextInputEditText LoginInfo_LBL_password;
+
     private TextInputLayout LoginInfo_TF_validate_password;
+    private TextInputEditText LoginInfo_LBL_validate_password;
+
     private ImageView LoginInfo_IMAGE_rightArrow;
     private ImageView LoginInfo_IMAGE_backGround;
 
@@ -63,13 +69,6 @@ public class Fragment_LoginInfo extends Fragment {
         this.callBack_registrationLoginInfo = callBack_registrationLoginInfo;
     }
 
-    private void findViews() {
-        LoginInfo_TF_email = view.findViewById(R.id.LoginInfo_TF_email);
-        LoginInfo_TF_password = view.findViewById(R.id.LoginInfo_TF_password);
-        LoginInfo_TF_validate_password = view.findViewById(R.id.LoginInfo_TF_validate_password);
-        LoginInfo_IMAGE_rightArrow = view.findViewById(R.id.LoginInfo_IMAGE_rightArrow);
-        LoginInfo_IMAGE_backGround = view.findViewById(R.id.LoginInfo_IMAGE_backGround);
-    }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -79,15 +78,16 @@ public class Fragment_LoginInfo extends Fragment {
             checkMatchedPasswords();
 
             if (checkEmail()){
-                FireBaseMethods.getInstance().checkIfEmailExist(LoginInfo_TF_email.getEditText().getText().toString());
+                if (LoginInfo_LBL_email.getText() != null)
+                FireBaseMethods.getInstance().checkIfEmailExist(LoginInfo_LBL_email.getText().toString());
             }
         }
     };
 
     private boolean validateInfo() {
         //check the strings are not null
-        if (LoginInfo_TF_password.getEditText().getText() != null &&
-                LoginInfo_TF_validate_password.getEditText().getText() != null) {
+        if (LoginInfo_LBL_email.getText() != null &&
+                LoginInfo_LBL_password.getText() != null) {
 
             boolean validatePassword = checkPassword();
             boolean validateMatchedPasswords = checkMatchedPasswords();
@@ -100,12 +100,12 @@ public class Fragment_LoginInfo extends Fragment {
 
     private boolean checkMatchedPasswords() {
         //check if null
-        if (LoginInfo_TF_password.getEditText().getText() == null && LoginInfo_TF_validate_password.getEditText().getText() == null)
+        if (LoginInfo_LBL_password.getText() == null && LoginInfo_LBL_validate_password.getText() == null)
             return false;
 
         //check if password and validate password are matched
-        if (!validateUserAccountInfo.ValidatePasswordMatch(LoginInfo_TF_password.getEditText().getText().toString(),
-                LoginInfo_TF_validate_password.getEditText().getText().toString() )){
+        if (!validateUserAccountInfo.ValidatePasswordMatch(LoginInfo_LBL_password.getText().toString(),
+                LoginInfo_LBL_validate_password.getText().toString() )){
             LoginInfo_TF_validate_password.setError("Password not matched");
             return false;
         }
@@ -116,10 +116,10 @@ public class Fragment_LoginInfo extends Fragment {
     }
     private boolean checkPassword(){
 
-        if (LoginInfo_TF_password.getEditText().getText() == null)
+        if (LoginInfo_LBL_password.getText() == null)
             return false;
 
-        if (!validateUserAccountInfo.ValidatePasswordRequirements(LoginInfo_TF_password.getEditText().getText().toString())){
+        if (!validateUserAccountInfo.ValidatePasswordRequirements(LoginInfo_LBL_password.getText().toString())){
             LoginInfo_TF_password.setError("Password must have at least 8 characters with at least one Capital letter, at least one lower case letter and at least one number ");
             return false;
         }
@@ -128,19 +128,20 @@ public class Fragment_LoginInfo extends Fragment {
             return true;
         }
     }
+
      private boolean checkEmail(){
         //check if not null
-        if (LoginInfo_TF_email.getEditText().getText() == null ){
+        if (LoginInfo_LBL_email.getText() == null ){
             return false;
         }
 
         //check if the user added email
-        if (LoginInfo_TF_email.getEditText().getText().toString().trim().isEmpty()){
+        if (LoginInfo_LBL_email.getText().toString().trim().isEmpty()){
             LoginInfo_TF_email.setError("This field is mandatory");
             return false;
         }
         //check if the email address has a real structure
-        else if (!validateUserAccountInfo.validateEmail(LoginInfo_TF_email.getEditText().getText().toString())){
+        else if (!validateUserAccountInfo.validateEmail(LoginInfo_LBL_email.getText().toString())){
             LoginInfo_TF_email.setError("Invalid email format");
             return false;
         }
@@ -170,10 +171,25 @@ public class Fragment_LoginInfo extends Fragment {
     //if they are fine move to the next register page
     private void nextStep(){
         if (validateInfo()){
+            if (LoginInfo_LBL_email.getText() != null && LoginInfo_LBL_password.getText() != null && LoginInfo_LBL_validate_password.getText() != null)
             callBack_registrationLoginInfo.advanceLoginInfoStep(
-                    LoginInfo_TF_email.getEditText().getText().toString().trim(),
-                    LoginInfo_TF_password.getEditText().getText().toString().trim(),
-                    LoginInfo_TF_validate_password.getEditText().getText().toString().trim());
+                    LoginInfo_LBL_email.getText().toString().trim(),
+                    LoginInfo_LBL_password.getText().toString().trim(),
+                    LoginInfo_LBL_validate_password.getText().toString().trim());
         }
+    }
+
+    private void findViews() {
+        LoginInfo_TF_email = view.findViewById(R.id.LoginInfo_TF_email);
+        LoginInfo_LBL_email = view.findViewById(R.id.LoginInfo_LBL_email);
+
+        LoginInfo_TF_password = view.findViewById(R.id.LoginInfo_TF_password);
+        LoginInfo_LBL_password = view.findViewById(R.id.LoginInfo_LBL_password);
+
+        LoginInfo_TF_validate_password = view.findViewById(R.id.LoginInfo_TF_validate_password);
+        LoginInfo_LBL_validate_password = view.findViewById(R.id.LoginInfo_LBL_validate_password);
+
+        LoginInfo_IMAGE_rightArrow = view.findViewById(R.id.LoginInfo_IMAGE_rightArrow);
+        LoginInfo_IMAGE_backGround = view.findViewById(R.id.LoginInfo_IMAGE_backGround);
     }
 }

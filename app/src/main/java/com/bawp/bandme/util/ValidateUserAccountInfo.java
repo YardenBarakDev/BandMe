@@ -50,7 +50,7 @@ public class ValidateUserAccountInfo {
         char ch;
         for (int i = 0; i < name.length(); i++) {
             ch = name.charAt(i);
-            if (ch < 65 || ch >122 || ch > 90 && ch <97)
+            if (ch < 65 || ch > 122 || ch > 90 && ch < 97)
                 return false;
         }
         return true;

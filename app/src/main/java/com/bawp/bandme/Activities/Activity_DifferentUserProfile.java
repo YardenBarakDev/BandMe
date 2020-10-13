@@ -10,20 +10,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bawp.bandme.R;
 import com.bawp.bandme.call_back_interface.CallBack_ChatExist;
+import com.bawp.bandme.model.BandMeContact;
 import com.bawp.bandme.model.BandMeProfile;
-import com.bawp.bandme.model.Chat;
-import com.bawp.bandme.model.ChatID;
 import com.bawp.bandme.util.FireBaseMethods;
-import com.bawp.bandme.util.MySP;
+import com.bawp.bandme.util.MyUtil;
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import java.util.Objects;
 
 
 public class Activity_DifferentUserProfile extends AppCompatActivity {
@@ -36,11 +33,14 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
     private TextView OtherUserProfile_LBL_instruments;
     private TextView OtherUserProfile_LBL_age;
     private TextView OtherUserProfile_LBL_info;
+    private TextView OtherUserProfile_LBL_district;
 
     //callback
     private CallBack_ChatExist myCallBack_ChatExist;
 
-    private BandMeProfile bandMeProfile;
+    private BandMeProfile viewedProfile;
+    private BandMeProfile currentProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +49,11 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         findView();
         myCallBack_ChatExist = callBack_chatExist;
         //get the profile from Fragment_searchMusicians
-        bandMeProfile = (BandMeProfile)getIntent().getSerializableExtra(MySP.KEYS.BAND_ME_PROFILE);
-        if (bandMeProfile!= null){
+        viewedProfile = (BandMeProfile)getIntent().getSerializableExtra(MyUtil.KEYS.BAND_ME_PROFILE);
+        if (viewedProfile!= null){
 
-            showUserInfo(bandMeProfile);
-            setProfilePicture(bandMeProfile.getImageUrl());
+            showUserInfo(viewedProfile);
+            setProfilePicture(viewedProfile.getImageUrl());
         }
 
         OtherUserProfile_IMAGE_sendMessage.setOnClickListener(differentUserProfileListener);
@@ -63,7 +63,7 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
     View.OnClickListener differentUserProfileListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            checkIfUsersTalked();
+            fetchCurrentUserInfoFromFirebase();
         }
     };
 
@@ -72,6 +72,7 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         OtherUserProfile_LBL_firstName.setText(bandMeProfile.getFirstName());
         OtherUserProfile_LBL_lastName.setText(bandMeProfile.getLastName());
         OtherUserProfile_LBL_age.setText(bandMeProfile.getAge());
+        OtherUserProfile_LBL_district.setText(bandMeProfile.getDistrict());
         OtherUserProfile_LBL_info.setText(bandMeProfile.getSelfInfo());
 
         //take care of the instruments arrayList items
@@ -103,19 +104,6 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
     }
 
 
-    private void findView() {
-        //images
-        OtherUserProfile_IMAGE_background = findViewById(R.id.OtherUserProfile_IMAGE_background);
-        OtherUserProfile_IMAGE_profilePicture = findViewById(R.id.OtherUserProfile_IMAGE_profilePicture);
-        OtherUserProfile_IMAGE_sendMessage = findViewById(R.id.OtherUserProfile_IMAGE_sendMessage);
-        //textViews
-        OtherUserProfile_LBL_firstName = findViewById(R.id.OtherUserProfile_LBL_firstName);
-        OtherUserProfile_LBL_lastName = findViewById(R.id.OtherUserProfile_LBL_lastName);
-        OtherUserProfile_LBL_instruments = findViewById(R.id.OtherUserProfile_LBL_instruments);
-        OtherUserProfile_LBL_age = findViewById(R.id.OtherUserProfile_LBL_age);
-        OtherUserProfile_LBL_info = findViewById(R.id.OtherUserProfile_LBL_info);
-
-    }
 
     private void checkIfUsersTalked(){
         Log.d("jjjj", "checkIfUsersTalked");
@@ -123,23 +111,23 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         //database/User/CurrentUserID/Contacts/participant
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().
                 getReference(FireBaseMethods.KEYS.USER).
-                child(FireBaseMethods.getInstance().getmAuth().getCurrentUser().getUid()).
+                child(currentProfile.getUid()).
                 child(FireBaseMethods.KEYS.CONTACTS);
 
         //check if the the user has a previous chat with the current user
-        databaseReference.orderByChild(FireBaseMethods.KEYS.PARTICIPANT).equalTo(bandMeProfile.getUid())
+        databaseReference.orderByChild(FireBaseMethods.KEYS.PARTICIPANT).equalTo(viewedProfile.getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            for (DataSnapshot userSnapshot: snapshot.getChildren()) {
-                                ChatID chatID = userSnapshot.getValue(ChatID.class);
+                            for (DataSnapshot ds : snapshot.getChildren()){
+                                BandMeContact bandMeContact = ds.getValue(BandMeContact.class);
                                 //users has a previous chat
                                 Log.d("jjjj", "checkIfUsersTalked:  talked");
 
-                                if (chatID != null){
-                                    String key = chatID.getChatId();
-                                    Log.d("jjjj", "checkIfUsersTalked: key = " + key + chatID.toString());
+                                if (bandMeContact != null){
+                                    String key = bandMeContact.getChatId();
+                                    Log.d("jjjj", "checkIfUsersTalked: key = " + key + bandMeContact.toString());
                                     myCallBack_ChatExist.hasPreviousConversations(key);
                                 }
                             }
@@ -161,7 +149,6 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
     private void createNewChatIdAndMoveToChat() {
 
         //create empty chat to set under chat id
-        //Chat chat = new Chat();
         //push the chat to create and empty instance in chatID that will be the place where the messages between the users will be stored
         DatabaseReference chatReference = FirebaseDatabase.getInstance().getReference(FireBaseMethods.KEYS.CHAT).push();
 
@@ -171,34 +158,34 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
 
         //Update current user participants
 
-        ChatID chatIdForCurrentUser = new ChatID(key, bandMeProfile.getUid());
+        BandMeContact contactForCurrentUser = new BandMeContact(key, viewedProfile.getUid()
+                , viewedProfile.getImageUrl()
+                , viewedProfile.getFirstName()
+                , viewedProfile.getLastName());
 
         DatabaseReference referenceForCurrentUser = FirebaseDatabase.getInstance().
                 getReference(FireBaseMethods.KEYS.USER).
-                child(FireBaseMethods.getInstance().getmAuth().getCurrentUser().getUid()).
+                child(currentProfile.getUid()).
                 child(FireBaseMethods.KEYS.CONTACTS);
 
-        referenceForCurrentUser.push().setValue(chatIdForCurrentUser);
-
+        referenceForCurrentUser.push().setValue(contactForCurrentUser);
 
         //update other user participants
-        ChatID chatIdForOtherUser = new ChatID(key, FireBaseMethods.getInstance().getmAuth().getCurrentUser().getUid());
+        BandMeContact contactForOtherUser = new BandMeContact(key, currentProfile.getUid()
+                ,currentProfile.getImageUrl()
+                ,currentProfile.getFirstName()
+                ,currentProfile.getLastName());
 
         //database/User/other contact id/contacts
         DatabaseReference referenceForOtherUser = FirebaseDatabase.getInstance().
                 getReference(FireBaseMethods.KEYS.USER).
-                child(bandMeProfile.getUid()).
+                child(viewedProfile.getUid()).
                 child(FireBaseMethods.KEYS.CONTACTS);
 
-        referenceForOtherUser.push().setValue(chatIdForOtherUser);
+        referenceForOtherUser.push().setValue(contactForOtherUser);
 
-        //move to chat activity
-        Intent intent = new Intent(Activity_DifferentUserProfile.this , Activity_Chat.class);
-        intent.putExtra(MySP.KEYS.BAND_ME_PROFILE, bandMeProfile);
-        intent.putExtra(FireBaseMethods.KEYS.KEY, key);
-        startActivity(intent);
-
-
+        //open chat activity
+        moveToChat(key);
     }
 
 
@@ -206,14 +193,40 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
 
         //move to chat activity
         Intent intent = new Intent(Activity_DifferentUserProfile.this , Activity_Chat.class);
-        intent.putExtra(MySP.KEYS.BAND_ME_PROFILE, bandMeProfile);
+        intent.putExtra(MyUtil.KEYS.BAND_ME_PROFILE, viewedProfile);
         intent.putExtra(FireBaseMethods.KEYS.KEY, key);
         startActivity(intent);
     }
 
+    private void fetchCurrentUserInfoFromFirebase() {
 
+        //MyBand user fetch info
+        //check for info in directory /Users/UID
+        FireBaseMethods.getInstance().getMyRef().child(Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getUid()))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        currentProfile = snapshot.getValue(BandMeProfile.class);
+                        if (currentProfile != null) {
+                            Log.d("jjjj", "onDataChange: " + currentProfile.getFirstName());
+                            callBack_chatExist.getCurrentUserData();
+                        }
+                    }
+
+                    //in case the server is unable to bring the data
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
 
     CallBack_ChatExist callBack_chatExist = new CallBack_ChatExist() {
+
+        @Override
+        public void getCurrentUserData() {
+            checkIfUsersTalked();
+        }
 
         @Override
         public void noPreviousConversations() {
@@ -227,4 +240,20 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
             Log.d("jjjj", "previousConversations: ");
         }
     };
+
+    private void findView() {
+        //images
+        OtherUserProfile_IMAGE_background = findViewById(R.id.OtherUserProfile_IMAGE_background);
+        OtherUserProfile_IMAGE_profilePicture = findViewById(R.id.OtherUserProfile_IMAGE_profilePicture);
+        OtherUserProfile_IMAGE_sendMessage = findViewById(R.id.OtherUserProfile_IMAGE_sendMessage);
+        //textViews
+        OtherUserProfile_LBL_firstName = findViewById(R.id.OtherUserProfile_LBL_firstName);
+        OtherUserProfile_LBL_lastName = findViewById(R.id.OtherUserProfile_LBL_lastName);
+        OtherUserProfile_LBL_instruments = findViewById(R.id.OtherUserProfile_LBL_instruments);
+        OtherUserProfile_LBL_age = findViewById(R.id.OtherUserProfile_LBL_age);
+        OtherUserProfile_LBL_info = findViewById(R.id.OtherUserProfile_LBL_info);
+        OtherUserProfile_LBL_district = findViewById(R.id.OtherUserProfile_LBL_district);
+
+    }
+
 }

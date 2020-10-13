@@ -4,10 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,7 +15,7 @@ import com.bawp.bandme.adapters.MyChatAdapter;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.model.Chat;
 import com.bawp.bandme.util.FireBaseMethods;
-import com.bawp.bandme.util.MySP;
+import com.bawp.bandme.util.MyUtil;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,8 +41,8 @@ public class Activity_Chat extends AppCompatActivity {
 
     //firebase
     private FirebaseUser firebaseUser;
-    DatabaseReference databaseReference;
     private String chatKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +52,7 @@ public class Activity_Chat extends AppCompatActivity {
         initRecycleView();
 
         //get the profile from Fragment_searchMusicians
-        bandMeProfile = (BandMeProfile)getIntent().getSerializableExtra(MySP.KEYS.BAND_ME_PROFILE);
+        bandMeProfile = (BandMeProfile)getIntent().getSerializableExtra(MyUtil.KEYS.BAND_ME_PROFILE);
         if (bandMeProfile!= null){
             showUserDetails(bandMeProfile);
         }
@@ -71,7 +68,7 @@ public class Activity_Chat extends AppCompatActivity {
 
     }
 
-    /*
+
     private void messageListener() {
         //messages listener
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().
@@ -82,16 +79,13 @@ public class Activity_Chat extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 readMessages();
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
 
-*/
     private void readMessages(){
 
         chatsList = new ArrayList<>();
@@ -106,7 +100,6 @@ public class Activity_Chat extends AppCompatActivity {
                 chatsList.clear();
                 for (DataSnapshot ds : snapshot.getChildren()){
                     Chat chat = ds.getValue(Chat.class);
-
                     if (chat != null){
                         chatsList.add(chat);
                     }
@@ -145,12 +138,11 @@ public class Activity_Chat extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().
                 getReference(FireBaseMethods.KEYS.CHAT).
                 child(chatKey);
-        Log.d("jjjj", "key" + chatKey);
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(MySP.KEYS.SENDER, sender);
-        hashMap.put(MySP.KEYS.RECEIVER, receiver);
-        hashMap.put(MySP.KEYS.MESSAGE, message);
+        hashMap.put(MyUtil.KEYS.SENDER, sender);
+        hashMap.put(MyUtil.KEYS.RECEIVER, receiver);
+        hashMap.put(MyUtil.KEYS.MESSAGE, message);
 
         databaseReference.push().setValue(hashMap);
     }

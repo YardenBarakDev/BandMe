@@ -7,7 +7,6 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MySP.initHelper(this);
         FireBaseMethods.initHelper();
     }
 }

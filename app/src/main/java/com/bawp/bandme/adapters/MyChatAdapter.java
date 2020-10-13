@@ -1,13 +1,11 @@
 package com.bawp.bandme.adapters;
 
 import android.content.Context;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bawp.bandme.R;
@@ -32,7 +30,6 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ViewHolder
 
 
     public MyChatAdapter(Context context, ArrayList<Chat> chats){
-        Log.d("jjjj", "consractur");
         this.context = context;
         this.chats = chats;
     }
@@ -42,12 +39,10 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == MSG_TYPE_RIGHT){
-            Log.d("jjjj", "chat adapter: sender");
             View view = LayoutInflater.from(context).inflate(R.layout.chat_item_current_user, parent, false);
             return new ViewHolder(view);
 
         }else{
-            Log.d("jjjj", "chat adapter: reciver");
             View view = LayoutInflater.from(context).inflate(R.layout.chat_item_other_user, parent, false);
             return new ViewHolder(view);
         }
@@ -81,7 +76,6 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        Log.d("jjjj", "chat adapter: get item typed");
         //get current user
         fireBaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -89,10 +83,8 @@ public class MyChatAdapter extends RecyclerView.Adapter<MyChatAdapter.ViewHolder
         //left -> other user messages
         //right -> current user messages
         if (chats.get(position).getSender().equals(fireBaseUser.getUid())){
-            Log.d("jjjj", "message current user");
             return MSG_TYPE_RIGHT;
         }else
-            Log.d("jjjj", "message current user");
         return MSG_TYPE_LEFT;
     }
 }

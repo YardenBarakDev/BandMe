@@ -3,6 +3,7 @@ package com.bawp.bandme.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.bawp.bandme.call_back_interface.CallBack_FireBaseDatabase;
@@ -101,7 +102,8 @@ public class Activity_Register extends AppCompatActivity {
         @Override
         public void createAnAccount(String firstName, String lastName, String age, String info, String district) {
             //add first name, last name, age and personal info to the account creation
-            bandMeProfile.setFirstName(firstName).setLastName(lastName).setAge(age).setSelfInfo(info);
+            Log.d("jjjj", "activity register: + district");
+            bandMeProfile.setFirstName(firstName).setLastName(lastName).setAge(age).setSelfInfo(info).setDistrict(district);
             addBandMeProfileToFireBase();
         }
 

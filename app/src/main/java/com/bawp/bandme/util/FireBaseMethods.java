@@ -25,16 +25,22 @@ import com.google.firebase.storage.UploadTask;
 public class FireBaseMethods {
 
     public interface KEYS{
-        //database branch for users
+        //database User data
         String USER = "User";
         String PROFILE_PICTURE_STORAGE = "ProfileImages";
         String PROFILE_PICTURE_REAL_TIME = "imageUrl";
-        String CHAT = "chat";
-        String CHAT_ID = "chatID";
-        String CONVERSATION = "conversation";
-        String KEY = "Key";
+        String INSTRUMENTS = "instruments";
         String CONTACTS = "Contacts";
         String PARTICIPANT = "participant";
+
+
+        String CHAT = "chat";
+        String KEY = "Key";
+        String OTHER = "Other";
+        //database branches
+        String DISTRICTS = "Districts";
+        String ALL_INSTRUMENTS = "All instruments";
+
     }
     private static FireBaseMethods instance;
     private FirebaseAuth mAuth;
@@ -125,6 +131,20 @@ public class FireBaseMethods {
     public void addUserClassInfo(BandMeProfile bandMeProfile,String uid){
         bandMeProfile.setUid(uid);
         myRef.child(uid).setValue(bandMeProfile);
+        database.getReference().child(KEYS.DISTRICTS).child(bandMeProfile.getDistrict()).push().setValue(bandMeProfile);
+
+        //instrument/userID
+        String [] instrumentsArray = MyUtil.Arrays.instruments;
+        for (int i = 0; i < bandMeProfile.getInstruments().size(); i++) {
+            for (int j = 0; j < instrumentsArray.length; j++) {
+                if (bandMeProfile.getInstruments().get(i).equals(instrumentsArray[j]) && !instrumentsArray[j].equals("All") && !instrumentsArray[j].equals("Other")) {
+                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(instrumentsArray[j]).push().setValue(bandMeProfile);
+                    break;
+                }
+                if (j == instrumentsArray.length -1)
+                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(KEYS.OTHER).push().setValue(bandMeProfile);
+            }
+        }
         callBack_fireBaseDatabase.finishedAccountCreation();
     }
 
@@ -218,6 +238,13 @@ public class FireBaseMethods {
         return this;
     }
 
+    public FirebaseDatabase getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(FirebaseDatabase database) {
+        this.database = database;
+    }
 
     //callbacks getter and setters
     public CallBack_FireBaseDatabase getCallBack_fireBaseDatabase() {

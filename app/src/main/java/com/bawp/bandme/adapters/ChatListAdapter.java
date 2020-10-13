@@ -8,28 +8,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bawp.bandme.R;
+import com.bawp.bandme.model.BandMeContact;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import java.util.ArrayList;
 
+public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
-
-    private ArrayList<BandMeProfile> bandMeProfiles = new ArrayList<>();
+    private ArrayList<BandMeContact> contacts = new ArrayList<>();
     private LayoutInflater mInflater;
     private Context context;
-    private ProfileListClickListener profileListClickListener;
+    private chatListClickListener chatListClickListener;
 
     // data is passed into the constructor
-    public MyRecyclerViewAdapter(Context context, ArrayList<BandMeProfile> data) {
+    public ChatListAdapter(Context context, ArrayList<BandMeContact> data) {
         this.mInflater = LayoutInflater.from(context);
-        this.bandMeProfiles = data;
+        this.contacts = data;
         this.context = context;
     }
 
-    public void setClickListener(ProfileListClickListener profileListClickListener){
-        this.profileListClickListener = profileListClickListener;
+    public void setClickListener(ChatListAdapter.chatListClickListener chatListClickListener){
+        this.chatListClickListener = chatListClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -42,30 +42,29 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        BandMeProfile bandMeProfile = bandMeProfiles.get(position);
+        BandMeContact bandMeContact = contacts.get(position);
+
         //check if user uploaded a picture
-        if (!bandMeProfile.getImageUrl().equals("")){
+        if (!bandMeContact.getImageURL().equals("")) {
             Glide.with(context)
-                    .load(bandMeProfile.getImageUrl())
+                    .load(bandMeContact.getImageURL())
                     .into(holder.List_IMAGE_profilePicture);
-        }
-        else{
+        } else {
             holder.List_IMAGE_profilePicture.setImageResource(R.drawable.profile);
         }
-        holder.List_LBL_firstName.setText(bandMeProfile.getFirstName());
-        holder.List_LBL_lastName.setText(bandMeProfile.getLastName());
+        holder.List_LBL_firstName.setText(bandMeContact.getFirstName());
     }
 
     // total number of rows
     @Override
     public int getItemCount() {
-        return bandMeProfiles.size();
+        return contacts.size();
     }
 
 
     // convenience method for getting data at click position
-    BandMeProfile getItem(int position) {
-        return bandMeProfiles.get(position);
+    BandMeContact getItem(int position) {
+        return contacts.get(position);
     }
 
 
@@ -92,14 +91,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (profileListClickListener != null)
-                        profileListClickListener.getProfile(getItem(getAdapterPosition()));
+                    if (chatListClickListener != null)
+                        chatListClickListener.getProfile(getItem(getAdapterPosition()));
                 }
             });
+
         }
     }
-
-    public interface ProfileListClickListener {
-        void getProfile(BandMeProfile bandMeProfile);
+    public interface chatListClickListener {
+        void getProfile(BandMeContact bandMeContact);
+        void moveToChatActivity(BandMeContact bandMeContact, BandMeProfile bandMeProfile);
     }
 }

@@ -47,7 +47,7 @@ public class Fragment_UserProfile extends Fragment {
     private TextView UserProfile_LBL_instruments;
     private TextView UserProfile_LBL_age;
     private TextView UserProfile_LBL_info;
-
+    private TextView UserProfile_LBL_district;
     private Toolbar UserProfile_Toolbar;
     private final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private final int REQUEST_CODE_SELECT_IMAGE = 1;
@@ -70,9 +70,6 @@ public class Fragment_UserProfile extends Fragment {
     private void fetchUserInfoFromFirebase() {
 
         //MyBand user fetch info
-
-
-
         //check for info in directory /Users/UID
         FireBaseMethods.getInstance().getMyRef().child(Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getUid()))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -123,6 +120,8 @@ public class Fragment_UserProfile extends Fragment {
         UserProfile_LBL_lastName.setText(bandMeProfile.getLastName());
         UserProfile_LBL_age.setText(bandMeProfile.getAge());
         UserProfile_LBL_info.setText(bandMeProfile.getSelfInfo());
+        UserProfile_LBL_district.setText(bandMeProfile.getDistrict());
+        Log.d("jjjj", bandMeProfile.getDistrict());
 
         //take care of the instruments arrayList items
         //organize all the items in a string
@@ -170,15 +169,12 @@ public class Fragment_UserProfile extends Fragment {
     };
 
     private void selectImage() {
-       /* Intent intent = new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (intent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
-        }
-*/
        Intent intent = new Intent();
        intent.setType("image/*");
        intent.setAction(Intent.ACTION_GET_CONTENT);
        startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
+
+
     }
 
     @Override
@@ -230,6 +226,7 @@ public class Fragment_UserProfile extends Fragment {
         UserProfile_LBL_instruments = view.findViewById(R.id.UserProfile_LBL_instruments);
         UserProfile_LBL_age = view.findViewById(R.id.UserProfile_LBL_age);
         UserProfile_LBL_info = view.findViewById(R.id.UserProfile_LBL_info);
+        UserProfile_LBL_district = view.findViewById(R.id.UserProfile_LBL_district);
 
         //Toolbar
         UserProfile_Toolbar = view.findViewById(R.id.UserProfile_Toolbar);
@@ -242,7 +239,6 @@ public class Fragment_UserProfile extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
 
         if (item.getItemId() == R.id.UserProfile_Toolbar_SignOut) {
             //sign out from the app
