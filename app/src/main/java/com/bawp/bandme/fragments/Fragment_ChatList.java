@@ -22,6 +22,7 @@ import com.bawp.bandme.model.BandMeContact;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.util.FireBaseMethods;
 import com.bawp.bandme.util.MyUtil;
+import com.bawp.bandme.util.StringDateComparator;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class Fragment_ChatList extends Fragment {
@@ -74,14 +76,15 @@ public class Fragment_ChatList extends Fragment {
         referenceForCurrentUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                contacts.clear();
                 for (DataSnapshot ds : snapshot.getChildren()){
                     BandMeContact chatID = ds.getValue(BandMeContact.class);
-                    if (chatID != null){
+                    if (chatID != null && chatID.isActive()){
                         contacts.add(chatID);
                     }
                 }
                 if (contacts.size() > 0){
+                    Collections.sort(contacts, new StringDateComparator());
                     setRecyclerViewAdapter();
                 }
             }

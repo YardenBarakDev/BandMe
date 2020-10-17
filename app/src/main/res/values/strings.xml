@@ -54,6 +54,9 @@
     <string name="UserProfile_Toolbar_SignOut">Sign out</string>
     <string name="Chat_BTN_send">Send button</string>
     <string name="Chat_profileImage">Profile image</string>
+    <string name="return_btn">return btn</string>
+    <string name="Activity_Update_BTN_update">Update</string>
+    <string name="UserProfile_Toolbar_Update_profile">Update profile</string>
 
     <string-array name="temp">
         <item> aaa</item>

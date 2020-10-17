@@ -44,7 +44,7 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__different_user_profile);
+        setContentView(R.layout.activity_different_user_profile);
 
         findView();
         myCallBack_ChatExist = callBack_chatExist;
@@ -166,9 +166,10 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         DatabaseReference referenceForCurrentUser = FirebaseDatabase.getInstance().
                 getReference(FireBaseMethods.KEYS.USER).
                 child(currentProfile.getUid()).
-                child(FireBaseMethods.KEYS.CONTACTS);
+                child(FireBaseMethods.KEYS.CONTACTS).
+                child(viewedProfile.getUid());
 
-        referenceForCurrentUser.push().setValue(contactForCurrentUser);
+        referenceForCurrentUser.setValue(contactForCurrentUser);
 
         //update other user participants
         BandMeContact contactForOtherUser = new BandMeContact(key, currentProfile.getUid()
@@ -180,9 +181,10 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         DatabaseReference referenceForOtherUser = FirebaseDatabase.getInstance().
                 getReference(FireBaseMethods.KEYS.USER).
                 child(viewedProfile.getUid()).
-                child(FireBaseMethods.KEYS.CONTACTS);
+                child(FireBaseMethods.KEYS.CONTACTS).
+                child(currentProfile.getUid());
 
-        referenceForOtherUser.push().setValue(contactForOtherUser);
+        referenceForOtherUser.setValue(contactForOtherUser);
 
         //open chat activity
         moveToChat(key);

@@ -7,7 +7,6 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.bawp.bandme.Activities.Activity_DifferentUserProfile;
 import com.bawp.bandme.adapters.MyRecyclerViewAdapter;
 import com.bawp.bandme.R;
 import com.bawp.bandme.model.BandMeProfile;
+import com.bawp.bandme.model.BandMeUID;
 import com.bawp.bandme.util.FireBaseMethods;
 import com.bawp.bandme.util.MyUtil;
 import com.google.firebase.database.DataSnapshot;
@@ -29,13 +29,13 @@ public class Fragment_SearchMusicians extends Fragment {
 
     protected View view;
     private RecyclerView SearchMusicians_LST_musicians;
-    private ArrayList<BandMeProfile> bandMeProfiles;
     private MyRecyclerViewAdapter myRecyclerViewAdapter;
     private AppCompatAutoCompleteTextView SearchMusicians_LST_musicians_Spinner_district;
     private AppCompatAutoCompleteTextView SearchMusicians_LST_musicians_Spinner_instruments;
 
     private String chosenDistrict = "";
     private String chosenInstrument = "";
+    private ArrayList<BandMeProfile> bandMeProfiles;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -56,7 +56,6 @@ public class Fragment_SearchMusicians extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 chosenDistrict = (String) adapterView.getItemAtPosition(i);
-                Log.d("jjjj", chosenDistrict);
                 chooseSort();
             }
         });
@@ -65,7 +64,6 @@ public class Fragment_SearchMusicians extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 chosenInstrument = (String) adapterView.getItemAtPosition(i);
-                Log.d("jjjj", chosenInstrument);
                 chooseSort();
             }
         });
@@ -108,28 +106,20 @@ public class Fragment_SearchMusicians extends Fragment {
     }
     private void sortByDistrictAndInstrument() {
         bandMeProfiles.clear();
-        FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS)
-                .child(chosenDistrict).
+        setRecyclerViewAdapter();
+        FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS_AND_INSTRUMENTS)
+                .child(chosenDistrict).child(chosenInstrument).
                 addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()){
-                            BandMeProfile profile = ds.getValue(BandMeProfile.class);
-
-                            //make sure the current user won't be in the search list
-                            if (profile != null && !profile.getUid().equals(
-                                    Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getCurrentUser()).getUid())){
-                                if (profile.getInstruments().contains(chosenInstrument)){
-                                    //add user to array
-                                    bandMeProfiles.add(profile);
-                                }
+                            BandMeUID bandMeUID = ds.getValue(BandMeUID.class);
+                            if (bandMeUID != null ){
+                                getUserFromID(bandMeUID.getUid());
                             }
                         }
-                        //send the list to the adapter
-                        setRecyclerViewAdapter();
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
@@ -139,6 +129,7 @@ public class Fragment_SearchMusicians extends Fragment {
 
     private void sortByInstrument() {
         bandMeProfiles.clear();
+        setRecyclerViewAdapter();
         FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.ALL_INSTRUMENTS).
                 child(chosenInstrument).
                 addListenerForSingleValueEvent(new ValueEventListener() {
@@ -146,18 +137,15 @@ public class Fragment_SearchMusicians extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot ds : snapshot.getChildren()){
-                            BandMeProfile profile = ds.getValue(BandMeProfile.class);
+                           BandMeUID bandMeUID = ds.getValue(BandMeUID.class);
 
                             //make sure the current user won't be in the search list
-                            if (profile != null && !profile.getUid().equals(
-                                    Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getCurrentUser()).getUid())){
-
+                            if (bandMeUID != null ){
                                 //add user to array
-                                bandMeProfiles.add(profile);
+                                getUserFromID(bandMeUID.getUid());
+                                //bandMeProfiles.add(profile);
                             }
                         }
-                        //send the list to the adapter
-                        setRecyclerViewAdapter();
                     }
 
                     @Override
@@ -169,6 +157,7 @@ public class Fragment_SearchMusicians extends Fragment {
 
     private void sortByDistrict() {
         bandMeProfiles.clear();
+        setRecyclerViewAdapter();
         FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS)
                 .child(chosenDistrict).
                 addListenerForSingleValueEvent(new ValueEventListener() {
@@ -176,18 +165,15 @@ public class Fragment_SearchMusicians extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()){
-                    BandMeProfile profile = ds.getValue(BandMeProfile.class);
+                    BandMeUID bandMeUID = ds.getValue(BandMeUID.class);
 
                     //make sure the current user won't be in the search list
-                    if (profile != null && !profile.getUid().equals(
-                            Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getCurrentUser()).getUid())){
-
+                    if (bandMeUID != null ){
                         //add user to array
-                        bandMeProfiles.add(profile);
+                        getUserFromID(bandMeUID.getUid());
+                        //bandMeProfiles.add(profile);
                     }
                 }
-                //send the list to the adapter
-                setRecyclerViewAdapter();
             }
 
             @Override
@@ -225,6 +211,26 @@ public class Fragment_SearchMusicians extends Fragment {
 
             }
         });
+    }
+
+    private void getUserFromID(String id) {
+        FireBaseMethods.getInstance().getMyRef().child(id)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        BandMeProfile bandMeProfile = snapshot.getValue(BandMeProfile.class);
+                        if (bandMeProfile != null && !bandMeProfile.getUid().equals(Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getCurrentUser()).getUid())) {
+                            bandMeProfiles.add(bandMeProfile);
+                        }
+                        if (bandMeProfiles.size() > 0)
+                            setRecyclerViewAdapter();
+                    }
+
+                    //in case the server is unable to bring the data
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
     }
 
     //once the user click on one of the cards, it will open an activity with the user data "Activity_DifferentUserProfile"

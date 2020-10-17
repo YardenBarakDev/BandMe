@@ -4,7 +4,9 @@
 
 
 
-    <item android:title="Update profile" />
+    <item
+        android:id="@+id/UserProfile_Toolbar_Update_Profile"
+        android:title="@string/UserProfile_Toolbar_Update_profile" />
 
     <item
         android:id="@+id/UserProfile_Toolbar_SignOut"

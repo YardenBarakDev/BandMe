@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Activity_UpdateInfo"
+    android:orientation="vertical"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Update_LAY_district"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/UserProfile_LBL_district"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/location"
+                android:layout_weight="1"
+                >
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/Update_Spinner_district"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:enabled="false"
+                    android:inputType="none"
+                    android:textColor="@color/primary_text"
+                    android:maxLines="1"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Update_TF_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:counterEnabled="true"
+                app:counterMaxLength="3"
+                app:errorEnabled="true"
+                android:layout_weight="1"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Update_LBL_age"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="@string/Register_ET_age"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:baselineAligned="false">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Update_TF_firstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:counterEnabled="true"
+                app:errorEnabled="true"
+                android:layout_weight="1"
+                app:counterMaxLength="15"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Update_LBL_firstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/PersonalData_TF_firstName"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:maxLength="15"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Update_TF_lastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:counterEnabled="true"
+                android:layout_weight="1"
+                app:counterMaxLength="15"
+                app:errorEnabled="true"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Update_LBL_lastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="@string/PersonalData_TF_lastName"
+                    android:maxLength="15"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Update_TF_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="500"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/Update_LBL_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/LoginInfo_TF_info"
+                android:maxLength="500"
+                android:maxLines="2"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Row_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_electric_guitar"
+            android:tag="Update_IMAGE_electric_guitar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/electric_guitar"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_electric_guitar" />
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_bass_guitar"
+            android:tag="Update_IMAGE_bass_guitar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bass_guitar"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_bass_guitar" />
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_drums"
+            android:tag="Update_IMAGE_drums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/drums"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_drums" />
+
+
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_singer"
+            android:tag="Update_IMAGE_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/microphone"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_microphone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Row_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_dj"
+            android:tag="Update_IMAGE_dj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dj"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_dj" />
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_mandolin"
+            android:tag="Update_IMAGE_mandolin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mandolin"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_mandolin" />
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_violin"
+            android:tag="Update_IMAGE_violin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/violin"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_violin" />
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_percussion"
+            android:tag="Update_IMAGE_percussion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/percussion"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_percussion" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/Row_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_keyboard"
+            android:tag="Update_IMAGE_keyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/keyboard"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_keyboard" />
+
+
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_flute"
+            android:tag="Update_IMAGE_flute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/flute"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_flute" />
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_piano"
+            android:tag="Update_IMAGE_piano"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/piano"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_violin" />
+
+        <ImageView
+            android:id="@+id/Update_IMAGE_saxophone"
+            android:tag="Update_IMAGE_saxophone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/saxophone"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/Register_IBTN_percussion" />
+
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Update_TF_Other_instrument"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:counterMaxLength="15"
+        app:counterEnabled="true"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Update_LBL_Other_instrument"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/Instruments_TF_other"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:ems="10"
+            android:maxLength="15"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Update_BTN_update"
+        android:tag="Update_BTN_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/Activity_Update_BTN_update"
+        android:textAllCaps="false"
+        />
+</LinearLayout>

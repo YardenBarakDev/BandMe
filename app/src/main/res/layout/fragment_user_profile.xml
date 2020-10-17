@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.Fragment_UserProfile">
-    
+    tools:context=".fragments.Fragment_UserProfile"
+    android:background="@color/primary_light"
+    >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -27,28 +30,31 @@
                 />
 
         </com.google.android.material.appbar.AppBarLayout>
-        <ImageView
-            android:id="@+id/UserProfile_IMAGE_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:contentDescription="@string/app_background"
-            />
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             >
-
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="250dp">
+
+
+                <ImageView
+                    android:id="@+id/UserProfile_IMAGE_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/app_background"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/UserProfile_IMAGE_profilePicture"
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
                     android:scaleType="fitXY"
                     android:padding="5dp"
                     app:strokeWidth="4dp"
@@ -56,6 +62,7 @@
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
                     android:layout_margin="20dp"
                     android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
                     />
             </RelativeLayout>
 
@@ -84,6 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
+                    android:textColor="@color/Black"
                     android:fontFamily="@font/cherry_cream_soda"
                     />
 
@@ -110,6 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
+                    android:textColor="@color/Black"
                     android:fontFamily="@font/cherry_cream_soda"
                     />
 
@@ -137,6 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
+                    android:textColor="@color/Black"
                     android:fontFamily="@font/cherry_cream_soda"
                     />
 
@@ -163,6 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
+                    android:textColor="@color/Black"
                     android:fontFamily="@font/cherry_cream_soda"
                     />
 
@@ -189,6 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
+                    android:textColor="@color/Black"
                     android:fontFamily="@font/cherry_cream_soda"
                     />
 
@@ -198,7 +210,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_margin="10dp">
+                android:layout_margin="10dp"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,6 +227,7 @@
                     android:id="@+id/UserProfile_LBL_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
                     android:fontFamily="@font/cherry_cream_soda"
                     />
 
@@ -222,6 +236,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 </ScrollView>

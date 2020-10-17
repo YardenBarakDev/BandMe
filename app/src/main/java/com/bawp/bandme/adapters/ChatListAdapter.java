@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
 
-    private ArrayList<BandMeContact> contacts = new ArrayList<>();
+    private ArrayList<BandMeContact> contacts;
     private LayoutInflater mInflater;
     private Context context;
     private chatListClickListener chatListClickListener;
@@ -35,7 +35,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.list_item_musicians, parent, false);
+        View view = mInflater.inflate(R.layout.list_item_chat, parent, false);
         return new ViewHolder(view);
     }
 
@@ -53,6 +53,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
             holder.List_IMAGE_profilePicture.setImageResource(R.drawable.profile);
         }
         holder.List_LBL_firstName.setText(bandMeContact.getFirstName());
+        holder.List_LBL_lastName.setText(bandMeContact.getLastName());
+        holder.List_LBL_date.setText(bandMeContact.getLastUpdate());
+        holder.List_LBL_lastMessage.setText(bandMeContact.getLastMessage());
     }
 
     // total number of rows
@@ -79,14 +82,18 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         ShapeableImageView List_IMAGE_profilePicture;
         TextView List_LBL_firstName;
         TextView List_LBL_lastName;
+        TextView List_LBL_date;
+        TextView List_LBL_lastMessage;
 
         ViewHolder(View view) {
             super(view);
 
             //find views
+            List_IMAGE_profilePicture = view.findViewById(R.id.List_IMAGE_profilePicture);
             List_LBL_firstName = view.findViewById(R.id.List_LBL_firstName);
             List_LBL_lastName = view.findViewById(R.id.List_LBL_lastName);
-            List_IMAGE_profilePicture = view.findViewById(R.id.List_IMAGE_profilePicture);
+            List_LBL_date = view.findViewById(R.id.List_LBL_date);
+            List_LBL_lastMessage = view.findViewById(R.id.List_LBL_lastMessage);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override

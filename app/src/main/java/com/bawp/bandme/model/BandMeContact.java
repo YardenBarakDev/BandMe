@@ -1,7 +1,5 @@
 package com.bawp.bandme.model;
 
-import java.util.Date;
-
 public class BandMeContact {
 
     private String chatId = "";
@@ -9,28 +7,19 @@ public class BandMeContact {
     private String imageURL = "";
     private String firstName = "";
     private String lastName = "";
-    private String date = "";
-    boolean activeChat = false;
+    private String lastUpdate = "";
+    private String lastMessage = "";
+    private boolean active = false;
 
     public BandMeContact() {
-
     }
+
     public BandMeContact(String chatId, String participant, String imageURL, String firstName, String lastName) {
         this.chatId = chatId;
         this.participant = participant;
         this.imageURL = imageURL;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
-
-    public BandMeContact(String chatId, String participant, String imageURL, String firstName, String lastName, String date, boolean activeChat) {
-        this.chatId = chatId;
-        this.participant = participant;
-        this.imageURL = imageURL;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.date = date;
-        this.activeChat = activeChat;
     }
 
     public String getChatId() {
@@ -73,21 +62,30 @@ public class BandMeContact {
         this.lastName = lastName;
     }
 
-    public String getDate() {
-        return date;
+    public String getLastUpdate() {
+        return lastUpdate;
     }
 
-    public BandMeContact setDate(String date) {
-        this.date = date;
+    public BandMeContact setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
         return this;
     }
 
-    public boolean isActiveChat() {
-        return activeChat;
+    public boolean isActive() {
+        return active;
     }
 
-    public BandMeContact setActiveChat(boolean activeChat) {
-        this.activeChat = activeChat;
+    public BandMeContact setActive(boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public BandMeContact setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
         return this;
     }
 }

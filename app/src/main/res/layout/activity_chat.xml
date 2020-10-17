@@ -18,13 +18,15 @@
 
         <ImageView
             android:id="@+id/Chat_IMAGE_return"
+            android:tag="Chat_IMAGE_return"
             android:layout_width="20dp"
             android:layout_height="match_parent"
             android:src="@drawable/left_arrow"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            />
+            android:contentDescription="@string/return_btn" />
+
         <ImageView
             android:id="@+id/Chat_IMAGE_profile"
             android:layout_width="100dp"
@@ -79,6 +81,7 @@
 
         <ImageButton
             android:id="@+id/Chat_BTN_send"
+            android:tag="Chat_BTN_send"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/send_message"

@@ -14,13 +14,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Activity_DifferentUserProfile"></activity>
-        <activity android:name=".Activities.Activity_Chat" />
-        <activity android:name=".Activities.Activity_Main" />
+        <activity android:name=".Activities.Activity_UpdateInfo"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".Activities.Activity_DifferentUserProfile"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.Activity_Chat"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.Activity_Main"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Activity_Register"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activities.Activity_SignIn">
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.Activity_SignIn"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

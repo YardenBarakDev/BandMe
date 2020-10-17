@@ -27,11 +27,17 @@ public class FireBaseMethods {
     public interface KEYS{
         //database User data
         String USER = "User";
+        String UID = "uid";
         String PROFILE_PICTURE_STORAGE = "ProfileImages";
         String PROFILE_PICTURE_REAL_TIME = "imageUrl";
         String INSTRUMENTS = "instruments";
         String CONTACTS = "Contacts";
         String PARTICIPANT = "participant";
+        String AGE = "age";
+        String DISTRICT = "district";
+        String FIRST_NAME = "firstName";
+        String LAST_NAME = "lastName";
+        String SELF_INFO = "selfInfo";
 
 
         String CHAT = "chat";
@@ -40,6 +46,7 @@ public class FireBaseMethods {
         //database branches
         String DISTRICTS = "Districts";
         String ALL_INSTRUMENTS = "All instruments";
+        String DISTRICTS_AND_INSTRUMENTS = "Districts and instruments";
 
     }
     private static FireBaseMethods instance;
@@ -130,19 +137,31 @@ public class FireBaseMethods {
     //add user info under User/UID
     public void addUserClassInfo(BandMeProfile bandMeProfile,String uid){
         bandMeProfile.setUid(uid);
-        myRef.child(uid).setValue(bandMeProfile);
-        database.getReference().child(KEYS.DISTRICTS).child(bandMeProfile.getDistrict()).push().setValue(bandMeProfile);
 
-        //instrument/userID
+        //add user info to -> database/user/userID
+        myRef.child(uid).setValue(bandMeProfile);
+
+        //add user info to -> database/districts/specific district/userID
+        database.getReference().child(KEYS.DISTRICTS).child(bandMeProfile.getDistrict()).child(bandMeProfile.getUid()).child(KEYS.UID).setValue(bandMeProfile.getUid());
+
+
+
+        //add user info to -> instrument/userID
         String [] instrumentsArray = MyUtil.Arrays.instruments;
         for (int i = 0; i < bandMeProfile.getInstruments().size(); i++) {
             for (int j = 0; j < instrumentsArray.length; j++) {
                 if (bandMeProfile.getInstruments().get(i).equals(instrumentsArray[j]) && !instrumentsArray[j].equals("All") && !instrumentsArray[j].equals("Other")) {
-                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(instrumentsArray[j]).push().setValue(bandMeProfile);
+                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(instrumentsArray[j]).child(bandMeProfile.getUid()).child(KEYS.UID).setValue(bandMeProfile.getUid());
+
+                    database.getReference().child(KEYS.DISTRICTS_AND_INSTRUMENTS).child(bandMeProfile.getDistrict()).child(instrumentsArray[j]).child(bandMeProfile.getUid()).child(KEYS.UID).setValue(bandMeProfile.getUid());
+
                     break;
                 }
-                if (j == instrumentsArray.length -1)
-                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(KEYS.OTHER).push().setValue(bandMeProfile);
+                if (j == instrumentsArray.length -1) {
+                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(KEYS.OTHER).child(bandMeProfile.getUid()).child(KEYS.UID).child(KEYS.UID).setValue(bandMeProfile.getUid());
+                    database.getReference().child(KEYS.DISTRICTS_AND_INSTRUMENTS).child(bandMeProfile.getDistrict()).child(KEYS.OTHER).child(bandMeProfile.getUid()).child(KEYS.UID).setValue(bandMeProfile.getUid());
+
+                }
             }
         }
         callBack_fireBaseDatabase.finishedAccountCreation();

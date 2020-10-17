@@ -1,6 +1,7 @@
 package com.bawp.bandme.fragments;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -25,9 +26,11 @@ import androidx.fragment.app.Fragment;
 
 import com.bawp.bandme.Activities.Activity_Main;
 import com.bawp.bandme.Activities.Activity_SignIn;
+import com.bawp.bandme.Activities.Activity_UpdateInfo;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.R;
 import com.bawp.bandme.util.FireBaseMethods;
+import com.bawp.bandme.util.MyUtil;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -49,6 +52,7 @@ public class Fragment_UserProfile extends Fragment {
     private TextView UserProfile_LBL_info;
     private TextView UserProfile_LBL_district;
     private Toolbar UserProfile_Toolbar;
+    private BandMeProfile bandMeProfile;
     private final int REQUEST_CODE_STORAGE_PERMISSION = 1;
     private final int REQUEST_CODE_SELECT_IMAGE = 1;
 
@@ -69,6 +73,11 @@ public class Fragment_UserProfile extends Fragment {
 
     private void fetchUserInfoFromFirebase() {
 
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
         //MyBand user fetch info
         //check for info in directory /Users/UID
         FireBaseMethods.getInstance().getMyRef().child(Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getUid()))
@@ -78,19 +87,22 @@ public class Fragment_UserProfile extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         //get the bandMe user object from fire base
-                        BandMeProfile bandMeProfile = snapshot.getValue(BandMeProfile.class);
+                        BandMeProfile profile = snapshot.getValue(BandMeProfile.class);
 
                         //if it is not null update the user info
-                        if (bandMeProfile != null){
-                            Log.d("jjjj", "onDataChange: " + bandMeProfile.getFirstName());
-                            updateUserInfo(bandMeProfile);
+                        if (profile != null){
+                            Log.d("jjjj", "onDataChange: " + profile.getFirstName());
+                            bandMeProfile = profile;
+                            updateUserInfo();
                         }
+                        progressDialog.dismiss();
                     }
 
                     //in case the server is unable to bring the data
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(getActivity(), "Connection lost", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
                     }
                 });
 
@@ -114,14 +126,13 @@ public class Fragment_UserProfile extends Fragment {
         });
     }
 
-    private void updateUserInfo(BandMeProfile bandMeProfile) {
+    private void updateUserInfo() {
         //set user data (first name, last name etc) in the relevant places
         UserProfile_LBL_firstName.setText(bandMeProfile.getFirstName());
         UserProfile_LBL_lastName.setText(bandMeProfile.getLastName());
         UserProfile_LBL_age.setText(bandMeProfile.getAge());
         UserProfile_LBL_info.setText(bandMeProfile.getSelfInfo());
         UserProfile_LBL_district.setText(bandMeProfile.getDistrict());
-        Log.d("jjjj", bandMeProfile.getDistrict());
 
         //take care of the instruments arrayList items
         //organize all the items in a string
@@ -250,6 +261,11 @@ public class Fragment_UserProfile extends Fragment {
             if (getActivity() != null)
                 getActivity().finish();
         }
+        if (item.getItemId() == R.id.UserProfile_Toolbar_Update_Profile){
+            Intent intent = new Intent(getActivity(), Activity_UpdateInfo.class);
+            intent.putExtra(MyUtil.KEYS.BAND_ME_PROFILE, bandMeProfile);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -261,4 +277,9 @@ public class Fragment_UserProfile extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fetchUserInfoFromFirebase();
+    }
 }

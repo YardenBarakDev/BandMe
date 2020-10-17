@@ -25,21 +25,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Activity_Chat extends AppCompatActivity {
 
     private ImageView Chat_IMAGE_profile;
+    private ImageView Chat_IMAGE_return;
     private TextView Chat_LBL_name;
 
     private ImageButton Chat_BTN_send;
     private EditText Chat_EditText_message;
-    private BandMeProfile bandMeProfile;
+    private BandMeProfile OtherUserProfileProfile;
 
     private RecyclerView Chat_RecyclerView_messages;
     private ArrayList<Chat> chatsList;
 
-    //firebase
     private FirebaseUser firebaseUser;
     private String chatKey;
 
@@ -52,9 +53,9 @@ public class Activity_Chat extends AppCompatActivity {
         initRecycleView();
 
         //get the profile from Fragment_searchMusicians
-        bandMeProfile = (BandMeProfile)getIntent().getSerializableExtra(MyUtil.KEYS.BAND_ME_PROFILE);
-        if (bandMeProfile!= null){
-            showUserDetails(bandMeProfile);
+        OtherUserProfileProfile = (BandMeProfile)getIntent().getSerializableExtra(MyUtil.KEYS.BAND_ME_PROFILE);
+        if (OtherUserProfileProfile!= null){
+            showUserDetails(OtherUserProfileProfile);
         }
         //get conversation key
         chatKey = getIntent().getStringExtra(FireBaseMethods.KEYS.KEY);
@@ -63,12 +64,13 @@ public class Activity_Chat extends AppCompatActivity {
 
         readMessages();
         //messageListener();
-        //button listener
-        Chat_BTN_send.setOnClickListener(ChatOnClickListener);
 
+        //listeners
+        Chat_BTN_send.setOnClickListener(ChatOnClickListener);
+        Chat_IMAGE_return.setOnClickListener(ChatOnClickListener);
     }
 
-
+/*
     private void messageListener() {
         //messages listener
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().
@@ -85,6 +87,7 @@ public class Activity_Chat extends AppCompatActivity {
             }
         });
     }
+*/
 
     private void readMessages(){
 
@@ -126,13 +129,35 @@ public class Activity_Chat extends AppCompatActivity {
         @Override
         public void onClick(View view) {
 
-            String message = Chat_EditText_message.getText().toString();
-            if (!message.trim().equals("")){
-                sendMessage(firebaseUser.getUid(), bandMeProfile.getUid(), message);
+            switch ((String)view.getTag()){
+                case "Chat_BTN_send":
+                    String message = Chat_EditText_message.getText().toString();
+                    if (!message.trim().equals("")){
+                        sendMessage(firebaseUser.getUid(), OtherUserProfileProfile.getUid(), message);
+                        updateContact(firebaseUser.getUid(), OtherUserProfileProfile.getUid(), message);
+                    }
+                    Chat_EditText_message.setText("");
+                    break;
+
+                case "Chat_IMAGE_return":
+                    finish();
+                    break;
             }
-            Chat_EditText_message.setText("");
         }
     };
+
+    private void updateContact(String sender, String receiver, String message) {
+        String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
+        //update current user
+        FireBaseMethods.getInstance().getMyRef().child(sender).child(FireBaseMethods.KEYS.CONTACTS).child(receiver).child("active").setValue(true);
+        FireBaseMethods.getInstance().getMyRef().child(sender).child(FireBaseMethods.KEYS.CONTACTS).child(receiver).child("lastUpdate").setValue(currentDateTimeString);
+        FireBaseMethods.getInstance().getMyRef().child(sender).child(FireBaseMethods.KEYS.CONTACTS).child(receiver).child("lastMessage").setValue(message);
+
+        //update other user
+        FireBaseMethods.getInstance().getMyRef().child(receiver).child(FireBaseMethods.KEYS.CONTACTS).child(sender).child("active").setValue(true);
+        FireBaseMethods.getInstance().getMyRef().child(receiver).child(FireBaseMethods.KEYS.CONTACTS).child(sender).child("lastUpdate").setValue(currentDateTimeString);
+        FireBaseMethods.getInstance().getMyRef().child(receiver).child(FireBaseMethods.KEYS.CONTACTS).child(sender).child("lastMessage").setValue(message);
+    }
 
     private void sendMessage(String sender, String receiver, String message) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().
@@ -178,6 +203,7 @@ public class Activity_Chat extends AppCompatActivity {
     private void findViews() {
 
         Chat_IMAGE_profile = findViewById(R.id.Chat_IMAGE_profile);
+        Chat_IMAGE_return = findViewById(R.id.Chat_IMAGE_return);
         Chat_LBL_name = findViewById(R.id.Chat_LBL_name);
         Chat_RecyclerView_messages = findViewById(R.id.Chat_RecyclerView_messages);
         Chat_BTN_send = findViewById(R.id.Chat_BTN_send);
