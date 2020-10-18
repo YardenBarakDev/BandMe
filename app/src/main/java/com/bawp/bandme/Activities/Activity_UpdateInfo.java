@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import com.bawp.bandme.R;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.util.FireBaseMethods;
@@ -17,11 +15,7 @@ import com.bawp.bandme.util.ValidateUserAccountInfo;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Activity_UpdateInfo extends AppCompatActivity {
 
@@ -72,8 +66,13 @@ public class Activity_UpdateInfo extends AppCompatActivity {
     View.OnClickListener UpdateClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (view.getTag().equals("Update_BTN_update"))
+            if (view.getTag().equals("Update_BTN_update")){
+
+                //add the "Other" instrument to instruments array if the user changed the value
+                if (Update_LBL_Other_instrument.getText() != null && !Update_LBL_Other_instrument.getText().toString().trim().isEmpty())
+                    instruments.add(Update_LBL_Other_instrument.getText().toString().trim());
                 updateUserInfoInFireBase();
+            }
             else {
                 instrumentsImages(view);
             }
@@ -83,15 +82,88 @@ public class Activity_UpdateInfo extends AppCompatActivity {
     private void updateUserInfoInFireBase() {
         if (validInfo() && Update_LBL_firstName.getText() != null && Update_LBL_lastName.getText() != null && Update_LBL_age.getText() != null
                 && Update_LBL_info.getText() != null){
-            FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.FIRST_NAME).setValue(Update_LBL_firstName.getText().toString());
-            FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.LAST_NAME).setValue(Update_LBL_lastName.getText().toString());
-            FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.SELF_INFO).setValue(Update_LBL_info.getText().toString());
-            FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.AGE).setValue(Update_LBL_age.getText().toString());
-            FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.INSTRUMENTS).setValue(instruments);
-            FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.DISTRICT).setValue(userDistrict);
+
+
+
+
+            if (!bandMeProfile.getFirstName().equals(Update_LBL_firstName.getText().toString()))
+                FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.FIRST_NAME).setValue(Update_LBL_firstName.getText().toString());
+
+
+            if (!bandMeProfile.getLastName().equals(Update_LBL_lastName.getText().toString()))
+                FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.LAST_NAME).setValue(Update_LBL_lastName.getText().toString());
+
+
+            if (!bandMeProfile.getSelfInfo().equals(Update_LBL_info.getText().toString()))
+                FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.SELF_INFO).setValue(Update_LBL_info.getText().toString());
+
+
+            if (!bandMeProfile.getAge().equals(Update_LBL_age.getText().toString()))
+                FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.AGE).setValue(Update_LBL_age.getText().toString());
+
+
+             if (!bandMeProfile.getDistrict().equals(userDistrict) || !bandMeProfile.getInstruments().containsAll(instruments) || !instruments.containsAll(bandMeProfile.getInstruments())){
+                FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.DISTRICT).setValue(userDistrict);
+                FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.INSTRUMENTS).setValue(instruments);
+                updateDistrictInFireBase();
+                updateInstrumentsInFireBase();
+            }
             finish();
         }
-        Toast.makeText(Activity_UpdateInfo.this, "An error accord please try again later", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateDistrictInFireBase() {
+        //remove old district record
+
+        //database/districts/user district/uid
+        FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS).child(bandMeProfile.getDistrict()).child(bandMeProfile.getUid()).removeValue();
+
+        for (int i = 0; i < bandMeProfile.getInstruments().size(); i++) {
+
+            //database/districts and instruments/user district/user instrument/uid
+            FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS_AND_INSTRUMENTS)
+                    .child(bandMeProfile.getDistrict()).child(bandMeProfile.getInstruments().get(i)).child(bandMeProfile.getUid()).removeValue();
+        }
+
+        //update current district
+        FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS).child(userDistrict).child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.UID).setValue(bandMeProfile.getUid());
+    }
+
+    private void updateInstrumentsInFireBase() {
+
+        ArrayList<String> allInstruments = new ArrayList<>();
+        for (int i = 1; i < MyUtil.Arrays.instruments.length; i++) {
+            allInstruments.add(MyUtil.Arrays.instruments[i]);
+        }
+
+        //update the database
+        for (int i = 0; i < allInstruments.size(); i++) {
+
+            //instruments array doesn't contain the instrument but the bandme account contain it. need to delete the record
+            if (!instruments.contains(allInstruments.get(i)) && bandMeProfile.getInstruments().contains(allInstruments.get(i))){
+                //database/all instruments/instrument/user uid
+                FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.ALL_INSTRUMENTS).child(allInstruments.get(i)).child(bandMeProfile.getUid()).removeValue();
+            }
+
+            //un updated bandme profile contain the instrument but instrument array list doesn't contain it. need to update the record
+            if (instruments.contains(allInstruments.get(i))){
+                //database/all instruments/instrument/user uid
+                FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.ALL_INSTRUMENTS).child(allInstruments.get(i)).child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.UID).setValue(bandMeProfile.getUid());
+
+                //database/ districts and instruments/district/instrument/uid
+                FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS_AND_INSTRUMENTS).child(userDistrict).child(allInstruments.get(i)).child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.UID).setValue(bandMeProfile.getUid());
+
+            }
+        }
+        //add the "other" instrument
+        for (int i = 0; i < instruments.size(); i++) {
+            if (!allInstruments.contains(instruments.get(i))){
+                FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.ALL_INSTRUMENTS).child(FireBaseMethods.KEYS.OTHER).child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.UID).setValue(bandMeProfile.getUid());
+                FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.DISTRICTS_AND_INSTRUMENTS).child(userDistrict).child(FireBaseMethods.KEYS.OTHER).child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.UID).setValue(bandMeProfile.getUid());
+
+            }
+        }
+
     }
 
     private boolean validInfo() {

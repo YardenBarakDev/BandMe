@@ -158,7 +158,7 @@ public class FireBaseMethods {
                     break;
                 }
                 if (j == instrumentsArray.length -1) {
-                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(KEYS.OTHER).child(bandMeProfile.getUid()).child(KEYS.UID).child(KEYS.UID).setValue(bandMeProfile.getUid());
+                    database.getReference().child(KEYS.ALL_INSTRUMENTS).child(KEYS.OTHER).child(bandMeProfile.getUid()).child(KEYS.UID).setValue(bandMeProfile.getUid());
                     database.getReference().child(KEYS.DISTRICTS_AND_INSTRUMENTS).child(bandMeProfile.getDistrict()).child(KEYS.OTHER).child(bandMeProfile.getUid()).child(KEYS.UID).setValue(bandMeProfile.getUid());
 
                 }
