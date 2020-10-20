@@ -93,14 +93,18 @@ public class Fragment_SearchMusicians extends Fragment {
 
     private void chooseSort(){
 
+        //the user search all database
         if (chosenInstrument.equals("All") && chosenDistrict.equals("All") || chosenInstrument.equals("All") && chosenDistrict.equals("")
             || chosenInstrument.equals("") && chosenDistrict.equals("All") || chosenInstrument.equals("") && chosenDistrict.equals("")){
             getAllUsersFromFireBase();
         }
+        //user search only by district
         else if (chosenInstrument.equals("All") || chosenInstrument.equals(""))
             sortByDistrict();
+        //user check only by instrument
         else if (chosenDistrict.equals("All") || chosenDistrict.equals(""))
             sortByInstrument();
+        //user search by district and instrument
         else
             sortByDistrictAndInstrument();
     }

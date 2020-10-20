@@ -83,25 +83,23 @@ public class Activity_UpdateInfo extends AppCompatActivity {
         if (validInfo() && Update_LBL_firstName.getText() != null && Update_LBL_lastName.getText() != null && Update_LBL_age.getText() != null
                 && Update_LBL_info.getText() != null){
 
-
-
-
+            //if the user updated his first name, it will update it in the database
             if (!bandMeProfile.getFirstName().equals(Update_LBL_firstName.getText().toString()))
                 FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.FIRST_NAME).setValue(Update_LBL_firstName.getText().toString());
 
-
+            //if the user updated his last name, it will update it in the database
             if (!bandMeProfile.getLastName().equals(Update_LBL_lastName.getText().toString()))
                 FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.LAST_NAME).setValue(Update_LBL_lastName.getText().toString());
 
-
+            //if the user updated his info, it will update it in the database
             if (!bandMeProfile.getSelfInfo().equals(Update_LBL_info.getText().toString()))
                 FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.SELF_INFO).setValue(Update_LBL_info.getText().toString());
 
-
+            //if the user updated his age, it will update it in the database
             if (!bandMeProfile.getAge().equals(Update_LBL_age.getText().toString()))
                 FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.AGE).setValue(Update_LBL_age.getText().toString());
 
-
+            //if the user updated instruments or district, it will update it in the database
              if (!bandMeProfile.getDistrict().equals(userDistrict) || !bandMeProfile.getInstruments().containsAll(instruments) || !instruments.containsAll(bandMeProfile.getInstruments())){
                 FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.DISTRICT).setValue(userDistrict);
                 FireBaseMethods.getInstance().getMyRef().child(bandMeProfile.getUid()).child(FireBaseMethods.KEYS.INSTRUMENTS).setValue(instruments);
@@ -166,6 +164,7 @@ public class Activity_UpdateInfo extends AppCompatActivity {
 
     }
 
+    //check if all the input is legal
     private boolean validInfo() {
         boolean checkFirstName = validFirstName();
         boolean checkLastName = validLastName();
@@ -271,6 +270,7 @@ public class Activity_UpdateInfo extends AppCompatActivity {
         Update_LBL_age.setText(bandMeProfile.getAge());
         Update_LBL_info.setText(bandMeProfile.getSelfInfo());
 
+        //color the images according to the user instruments
         for (int i = 0; i < bandMeProfile.getInstruments().size(); i++) {
             switch (bandMeProfile.getInstruments().get(i)) {
                 case MyUtil.KEYS.ELECTRIC_GUITAR:

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "406711298603",
+    "firebase_url": "https://bandme-9fbce.firebaseio.com",
+    "project_id": "bandme-9fbce",
+    "storage_bucket": "bandme-9fbce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406711298603:android:c0efe3690a78188a2d186e",
+        "android_client_info": {
+          "package_name": "com.bawp.bandme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406711298603-nqjocv1rl6qmgprnkr5h817hdf9s7sv5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtPYAe6JxPBrpC08BFokg4-s8l8-nqZ2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406711298603-nqjocv1rl6qmgprnkr5h817hdf9s7sv5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 public class Fragment_ChatList extends Fragment {
 
     protected View view;
@@ -58,7 +57,7 @@ public class Fragment_ChatList extends Fragment {
         ChatList_LST_musicians.setAdapter(chatListAdapter);
     }
 
-    //get all contacts the user has chat with
+    //get all contacts the user had chat with and listen to new conversations
     private void fetchContactsFromFirebase() {
 
         DatabaseReference referenceForCurrentUser = FirebaseDatabase.getInstance().
@@ -74,12 +73,10 @@ public class Fragment_ChatList extends Fragment {
                     BandMeContact chatID = ds.getValue(BandMeContact.class);
                     if (chatID != null && chatID.isActive()){
                         contacts.add(chatID);
+                        getUserFromID(chatID);
                     }
                 }
-                if (contacts.size() > 0){
-                    Collections.sort(contacts, new StringDateComparator());
-                    setRecyclerViewAdapter();
-                }
+
             }
             //in case the server is unable to bring the data
             @Override
@@ -88,15 +85,37 @@ public class Fragment_ChatList extends Fragment {
         });
     }
 
+
+    private void getUserFromID(final BandMeContact bandMeContact) {
+        FireBaseMethods.getInstance().getMyRef().child(bandMeContact.getParticipant())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        BandMeProfile bandMeProfile = snapshot.getValue(BandMeProfile.class);
+                        if (bandMeProfile != null ) {
+                            bandMeContact.setFirstName(bandMeProfile.getFirstName());
+                            bandMeContact.setLastName(bandMeProfile.getLastName());
+                            bandMeContact.setImageURL(bandMeProfile.getImageUrl());
+                        }
+                        if (contacts.size() > 0){
+                            Collections.sort(contacts, new StringDateComparator());
+                            setRecyclerViewAdapter();
+                        }
+                    }
+
+                    //in case the server is unable to bring the data
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+    }
     ChatListAdapter.chatListClickListener chatListClickListener = new ChatListAdapter.chatListClickListener() {
 
+
+        //get the participant details and open Activity_Chat
         @Override
         public void getProfile(final BandMeContact bandMeContact) {
 
-            /* FireBaseMethods.getInstance().getMyRef().child(Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getUid()))
-                .addListenerForSingleValueEvent(new ValueEventListener()
-
-             */
             FireBaseMethods.getInstance().getDatabase().getReference().child(FireBaseMethods.KEYS.USER).child(bandMeContact.getParticipant()).
                     addListenerForSingleValueEvent(new ValueEventListener() {
 

@@ -1,0 +1,7 @@
+#Tue Oct 20 22:04:18 IDT 2020
+base.0=C\:\\Users\\yarde\\AndroidStudioProjects\\Bandme\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=C\:\\Users\\yarde\\AndroidStudioProjects\\Bandme\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\classes.dex

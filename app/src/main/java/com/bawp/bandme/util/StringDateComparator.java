@@ -2,6 +2,7 @@ package com.bawp.bandme.util;
 
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.bawp.bandme.model.BandMeContact;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class StringDateComparator implements Comparator<BandMeContact>
 {
     @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
 
     @Override
     public int compare(BandMeContact contact1, BandMeContact contact2) {

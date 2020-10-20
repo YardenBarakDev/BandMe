@@ -70,24 +70,6 @@ public class Activity_Chat extends AppCompatActivity {
         Chat_IMAGE_return.setOnClickListener(ChatOnClickListener);
     }
 
-/*
-    private void messageListener() {
-        //messages listener
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().
-                getReference(FireBaseMethods.KEYS.CHAT).
-                child(chatKey);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                readMessages();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-*/
 
     private void readMessages(){
 
@@ -148,6 +130,7 @@ public class Activity_Chat extends AppCompatActivity {
 
     private void updateContact(String sender, String receiver, String message) {
         String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
+
         //update current user
         FireBaseMethods.getInstance().getMyRef().child(sender).child(FireBaseMethods.KEYS.CONTACTS).child(receiver).child("active").setValue(true);
         FireBaseMethods.getInstance().getMyRef().child(sender).child(FireBaseMethods.KEYS.CONTACTS).child(receiver).child("lastUpdate").setValue(currentDateTimeString);

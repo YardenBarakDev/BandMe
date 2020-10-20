@@ -181,6 +181,7 @@ public class Fragment_UserProfile extends Fragment {
         }
     };
 
+    //open the gallery and allow to choose a profile picture
     private void selectImage() {
        Intent intent = new Intent();
        intent.setType("image/*");
@@ -214,6 +215,7 @@ public class Fragment_UserProfile extends Fragment {
         }
     }
 
+    //set background photo
     private void glideBackground() {
         Glide
                 .with(this)
@@ -264,7 +266,7 @@ public class Fragment_UserProfile extends Fragment {
 
         //Toolbar
         UserProfile_Toolbar = view.findViewById(R.id.UserProfile_Toolbar);
-        if ((Activity_Main)getActivity() != null){
+        if (getActivity() != null){
             Log.d("jjjj", "findView: not null");
             ((AppCompatActivity)getActivity()).setSupportActionBar(UserProfile_Toolbar);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
