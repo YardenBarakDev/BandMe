@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.bawp.bandme.call_back_interface.CallBack_FireBaseEmailChecker;
+import com.bawp.bandme.call_back_interface.CallBack_UpdateProfilePhoto;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.call_back_interface.CallBack_FireBaseDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,6 +60,7 @@ public class FireBaseMethods {
     //callbacks
     private CallBack_FireBaseDatabase callBack_fireBaseDatabase;
     private CallBack_FireBaseEmailChecker callBack_fireBaseEmailChecker;
+    private CallBack_UpdateProfilePhoto callBack_updateProfilePhoto;
 
     public FireBaseMethods() {
         this.mAuth = FirebaseAuth.getInstance();
@@ -204,6 +206,8 @@ public class FireBaseMethods {
                         Log.d("jjjj", "" + uri.toString());
                         //update the url in the user info Users/UID/imageUrl
                         myRef.child(mAuth.getCurrentUser().getUid()).child(KEYS.PROFILE_PICTURE_REAL_TIME).setValue(uri.toString());
+                        callBack_updateProfilePhoto.updateProfilePicture(uri);
+
                     }
                 });
             }
@@ -281,6 +285,15 @@ public class FireBaseMethods {
 
     public FireBaseMethods setCallBack_fireBaseEmailChecker(CallBack_FireBaseEmailChecker callBack_fireBaseEmailChecker) {
         this.callBack_fireBaseEmailChecker = callBack_fireBaseEmailChecker;
+        return this;
+    }
+
+    public CallBack_UpdateProfilePhoto getCallBack_updateProfilePhoto() {
+        return callBack_updateProfilePhoto;
+    }
+
+    public FireBaseMethods setCallBack_updateProfilePhoto(CallBack_UpdateProfilePhoto callBack_updateProfilePhoto) {
+        this.callBack_updateProfilePhoto = callBack_updateProfilePhoto;
         return this;
     }
 }

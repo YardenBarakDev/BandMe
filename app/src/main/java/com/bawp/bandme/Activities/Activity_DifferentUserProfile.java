@@ -26,6 +26,7 @@ import java.util.Objects;
 public class Activity_DifferentUserProfile extends AppCompatActivity {
 
     private ImageView OtherUserProfile_IMAGE_background;
+    private ImageView OtherUserProfile_IMAGE_close;
     private ImageView OtherUserProfile_IMAGE_profilePicture;
     private ImageView OtherUserProfile_IMAGE_sendMessage;
     private TextView OtherUserProfile_LBL_firstName;
@@ -47,6 +48,7 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         setContentView(R.layout.activity_different_user_profile);
 
         findView();
+        glideBackground();
         myCallBack_ChatExist = callBack_chatExist;
         //get the profile from Fragment_searchMusicians
         viewedProfile = (BandMeProfile)getIntent().getSerializableExtra(MyUtil.KEYS.BAND_ME_PROFILE);
@@ -57,13 +59,20 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         }
 
         OtherUserProfile_IMAGE_sendMessage.setOnClickListener(differentUserProfileListener);
-
+        OtherUserProfile_IMAGE_close.setOnClickListener(differentUserProfileListener);
     }
 
     View.OnClickListener differentUserProfileListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            fetchCurrentUserInfoFromFirebase();
+            switch (((String) view.getTag())) {
+                case "OtherUserProfile_IMAGE_sendMessage":
+                    fetchCurrentUserInfoFromFirebase();
+                    break;
+                case "OtherUserProfile_IMAGE_close":
+                    finish();
+                    break;
+            }
         }
     };
 
@@ -103,7 +112,12 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
         }
     }
 
-
+    private void glideBackground() {
+        Glide
+                .with(this)
+                .load(R.drawable.background_image)
+                .into(OtherUserProfile_IMAGE_background);
+    }
 
     private void checkIfUsersTalked(){
         Log.d("jjjj", "checkIfUsersTalked");
@@ -246,6 +260,7 @@ public class Activity_DifferentUserProfile extends AppCompatActivity {
     private void findView() {
         //images
         OtherUserProfile_IMAGE_background = findViewById(R.id.OtherUserProfile_IMAGE_background);
+        OtherUserProfile_IMAGE_close = findViewById(R.id.OtherUserProfile_IMAGE_close);
         OtherUserProfile_IMAGE_profilePicture = findViewById(R.id.OtherUserProfile_IMAGE_profilePicture);
         OtherUserProfile_IMAGE_sendMessage = findViewById(R.id.OtherUserProfile_IMAGE_sendMessage);
         //textViews

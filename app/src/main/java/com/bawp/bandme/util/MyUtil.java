@@ -24,6 +24,10 @@ public class MyUtil {
     }
 
     public interface Arrays{
+
+        String [] districtsForSpinner = {"Jerusalem", "Northern District", "Haifa District", "Central District", "Tel Aviv District",
+                "Southern District", "Judea and Samaria Area", "Eilat"};
+
         String [] districts = {"All", "Jerusalem", "Northern District", "Haifa District", "Central District", "Tel Aviv District",
                 "Southern District", "Judea and Samaria Area", "Eilat"};
 

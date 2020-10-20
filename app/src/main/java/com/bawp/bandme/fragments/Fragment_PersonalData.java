@@ -210,7 +210,7 @@ public class Fragment_PersonalData extends Fragment {
 
     private void setSpinner() {
         if (getActivity() != null)
-            PersonalData_Spinner_district.setAdapter(new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, MyUtil.Arrays.districts));
+            PersonalData_Spinner_district.setAdapter(new ArrayAdapter<>(getActivity(), R.layout.spinner_layout, MyUtil.Arrays.districtsForSpinner));
     }
 
     private void glideBackground() {

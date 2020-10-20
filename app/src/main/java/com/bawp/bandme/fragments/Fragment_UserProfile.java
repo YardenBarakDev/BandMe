@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.bawp.bandme.Activities.Activity_Main;
 import com.bawp.bandme.Activities.Activity_SignIn;
 import com.bawp.bandme.Activities.Activity_UpdateInfo;
+import com.bawp.bandme.call_back_interface.CallBack_UpdateProfilePhoto;
 import com.bawp.bandme.model.BandMeProfile;
 import com.bawp.bandme.R;
 import com.bawp.bandme.util.FireBaseMethods;
@@ -37,6 +38,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.Objects;
 
 public class Fragment_UserProfile extends Fragment {
@@ -67,6 +69,7 @@ public class Fragment_UserProfile extends Fragment {
         findView();
         glideBackground();
         fetchUserInfoFromFirebase();
+        FireBaseMethods.getInstance().setCallBack_updateProfilePhoto(callBack_updateProfilePhoto);
         UserProfile_IMAGE_profilePicture.setOnClickListener(userProfileClickListener);
         return view;
     }
@@ -105,7 +108,10 @@ public class Fragment_UserProfile extends Fragment {
                         progressDialog.dismiss();
                     }
                 });
+        profilePictureFetch();
+    }
 
+    private void profilePictureFetch(){
         //Profile Picture Fetch
         FireBaseMethods.getInstance().getStorageRef().child(Objects.requireNonNull(FireBaseMethods.getInstance().getmAuth().getCurrentUser()).getUid()).
                 getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -113,19 +119,15 @@ public class Fragment_UserProfile extends Fragment {
             @Override
             public void onSuccess(Uri uri) {
                 //find picture in storage, upload it to the user profile from link using glide
-                setProfilePictureFromFireBaseLink(uri);
-                Log.d("jjjj", "onSuccess: " + uri.getPath());
-            }
+                setProfilePictureFromFireBaseLink(uri); }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                Log.d("jjjj", "profile picture fail");
                 //if can't find picture, set profile picture as drawable
                 UserProfile_IMAGE_profilePicture.setImageResource(R.drawable.profile);
             }
         });
     }
-
     private void updateUserInfo() {
         //set user data (first name, last name etc) in the relevant places
         UserProfile_LBL_firstName.setText(bandMeProfile.getFirstName());
@@ -208,7 +210,6 @@ public class Fragment_UserProfile extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == -1 && data.getData() != null){
             Uri uri = data.getData();
-            UserProfile_IMAGE_profilePicture.setImageURI(uri);
             FireBaseMethods.getInstance().uploadProfilePicture(uri, getActivity());
         }
     }
@@ -224,28 +225,6 @@ public class Fragment_UserProfile extends Fragment {
         Glide.with(this)
                 .load(uri)
                 .into(UserProfile_IMAGE_profilePicture);
-    }
-
-    private void findView() {
-        //images
-        UserProfile_IMAGE_background = view.findViewById(R.id.UserProfile_IMAGE_background);
-        UserProfile_IMAGE_profilePicture = view.findViewById(R.id.UserProfile_IMAGE_profilePicture);
-
-        //textViews
-        UserProfile_LBL_firstName = view.findViewById(R.id.UserProfile_LBL_firstName);
-        UserProfile_LBL_lastName = view.findViewById(R.id.UserProfile_LBL_lastName);
-        UserProfile_LBL_instruments = view.findViewById(R.id.UserProfile_LBL_instruments);
-        UserProfile_LBL_age = view.findViewById(R.id.UserProfile_LBL_age);
-        UserProfile_LBL_info = view.findViewById(R.id.UserProfile_LBL_info);
-        UserProfile_LBL_district = view.findViewById(R.id.UserProfile_LBL_district);
-
-        //Toolbar
-        UserProfile_Toolbar = view.findViewById(R.id.UserProfile_Toolbar);
-        if ((Activity_Main)getActivity() != null){
-            Log.d("jjjj", "findView: not null");
-            ((AppCompatActivity)getActivity()).setSupportActionBar(UserProfile_Toolbar);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
     }
 
     @Override
@@ -269,6 +248,29 @@ public class Fragment_UserProfile extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void findView() {
+        //images
+        UserProfile_IMAGE_background = view.findViewById(R.id.UserProfile_IMAGE_background);
+        UserProfile_IMAGE_profilePicture = view.findViewById(R.id.UserProfile_IMAGE_profilePicture);
+
+        //textViews
+        UserProfile_LBL_firstName = view.findViewById(R.id.UserProfile_LBL_firstName);
+        UserProfile_LBL_lastName = view.findViewById(R.id.UserProfile_LBL_lastName);
+        UserProfile_LBL_instruments = view.findViewById(R.id.UserProfile_LBL_instruments);
+        UserProfile_LBL_age = view.findViewById(R.id.UserProfile_LBL_age);
+        UserProfile_LBL_info = view.findViewById(R.id.UserProfile_LBL_info);
+        UserProfile_LBL_district = view.findViewById(R.id.UserProfile_LBL_district);
+
+        //Toolbar
+        UserProfile_Toolbar = view.findViewById(R.id.UserProfile_Toolbar);
+        if ((Activity_Main)getActivity() != null){
+            Log.d("jjjj", "findView: not null");
+            ((AppCompatActivity)getActivity()).setSupportActionBar(UserProfile_Toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+    }
+
     //inflate toolbar
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -282,4 +284,11 @@ public class Fragment_UserProfile extends Fragment {
         super.onResume();
         fetchUserInfoFromFirebase();
     }
+    CallBack_UpdateProfilePhoto callBack_updateProfilePhoto = new CallBack_UpdateProfilePhoto() {
+        @Override
+        public void updateProfilePicture(Uri uri) {
+            profilePictureFetch();
+        }
+    };
+
 }

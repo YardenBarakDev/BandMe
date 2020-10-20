@@ -264,7 +264,7 @@ public class Activity_UpdateInfo extends AppCompatActivity {
 
     private void showUserCurrentInfo() {
         //init spinner array
-        Update_Spinner_district.setAdapter(new ArrayAdapter<>(Activity_UpdateInfo.this, R.layout.spinner_layout, MyUtil.Arrays.districts));
+        Update_Spinner_district.setAdapter(new ArrayAdapter<>(Activity_UpdateInfo.this, R.layout.spinner_layout, MyUtil.Arrays.districtsForSpinner));
 
         Update_LBL_firstName.setText(bandMeProfile.getFirstName());
         Update_LBL_lastName.setText(bandMeProfile.getLastName());
